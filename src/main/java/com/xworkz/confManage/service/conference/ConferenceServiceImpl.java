@@ -1,13 +1,16 @@
 package com.xworkz.confManage.service.conference;
 
 import com.xworkz.confManage.dao.conference.ConferenceDAO;
+import com.xworkz.confManage.dao.delegates.DelegateDAO;
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
+import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
 import com.xworkz.confManage.utils.EmailService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,42 +129,81 @@ public class ConferenceServiceImpl implements ConferenceService {
         return false;
     }
 
+    @Autowired
+    private DelegateDAO delegateDAO;
+
     @Override
     public boolean sendToTPO(int confId) {
+
         ConferenceEntity conf = conferenceDAO.findById(confId);
 
         if (conf == null) return false;
 
-        // ✅ Get multiple emails
         String emails = conf.getDelegatesEmail();
 
         if (emails == null || emails.isEmpty()) return false;
 
-        // ✅ Split emails
         String[] emailList = emails.split(",");
 
-        String link = "http://192.168.117.125:8080/studentRegister?confId=" + confId;
+        String role ;
+        if( conf.getTargetedAudience().equalsIgnoreCase("students")){
+            role="TPO";
+        } else if (conf.getTargetedAudience().equalsIgnoreCase("employees")) {
+            role="HR";
+        } else {
+            role="OTHERS";
+        }
 
-        String subject = "Conference Notification";
+        String link = "http://192.168.117.125:8080/conference/delegatesRegister?confId=" + confId;
 
-        String body = "Conference: " + conf.getConferenceTopic()
-                + "\nDate: " + conf.getDate()
-                + "\nTime: " + conf.getTime()
-                + "\n\nPlease forward to students."
-                + "\n\nRegistration Link:\n" + link;
+        String subject = "Conference Notification & Login Details";
 
-        // ✅ Send to ALL TPOs
         for (String email : emailList) {
-            emailService.sendHtmlMail(email.trim(), subject, body);
+
+            email = email.trim();
+
+            DelegateUserEntity user = delegateDAO.findByEmail(email);
+
+            String password;
+
+            if (user == null) {
+
+
+                user = new DelegateUserEntity();
+                user.setEmail(email);
+
+                password = generatePassword(email);
+                user.setPassword(password);
+                user.setRole(role);
+
+                delegateDAO.save(user);
+
+            } else {
+                password = user.getPassword();
+            }
+
+
+            String body = "Conference: " + conf.getConferenceTopic()
+                    + "<br>Date: " + conf.getDate()
+                    + "<br>Time: " + conf.getTime()
+                    + "<br><br><b>Your Login Credentials</b>"
+                    + "<br>Email: " + email
+                    + "<br>Password: " + password
+                    + "<br><br>Login here: http://192.168.117.125:8080/conference/delegateLogin"
+                    + "<br><br><b>Student Registration Link:</b>"
+                    + "<br>" + link;
+
+            emailService.sendHtmlMail(email, subject, body);
         }
 
         conf.setEmailSent(true);
         conferenceDAO.update(conf);
 
         return true;
-
-
     }
+
+
+
 
     @Override
     public List<ConferenceDTO> getSentConferences() {
@@ -181,4 +223,16 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
 
+
+
+    public String generatePassword(String email) {
+
+        String name = email.split("@")[0];
+
+        if (name.length() >= 4) {
+            return name.substring(0, 4) + "@123";
+        } else {
+            return name + "@123";
+        }
+    }
 }

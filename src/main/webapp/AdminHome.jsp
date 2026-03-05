@@ -88,14 +88,6 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     </div>
 </nav>
 
-<!--&lt;!&ndash; HERO &ndash;&gt;-->
-<!--<section class="admin-hero">-->
-<!--    <div class="container">-->
-<!--        <h1>Admin Control Panel</h1>-->
-<!--        <p>Approve Conferences • Send Invitations • Manage Events</p>-->
-<!--    </div>-->
-<!--</section>-->
-
 <div class="container">
 
     <!-- ================= PENDING SECTION ================= -->
