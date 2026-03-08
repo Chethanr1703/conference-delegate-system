@@ -1,7 +1,5 @@
 package com.xworkz.confManage.dao.delegates;
 
-
-import com.xworkz.confManage.entity.admin.AdminLoginEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

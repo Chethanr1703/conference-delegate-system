@@ -131,24 +131,12 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             </div>
 
             <div class="col-md-6 mb-3">
-                <select class="form-select" name="role" required>
-                    <option value="">Select Category</option>
-                    <option value="Student">Student</option>
-                    <option value="Employee">Employee</option>
-                </select>
-            </div>
-
-            <div class="col-md-6 mb-3">
                 <input type="text" class="form-control"
                        placeholder="College / Company Name"
                        name="organization" required>
             </div>
 
-            <div class="col-md-6 mb-3">
-                <input type="text" class="form-control"
-                       placeholder="Department / Designation"
-                       name="department" required>
-            </div>
+
 
 <!--            <div class="col-md-6 mb-3">-->
 <!--                <input type="password" class="form-control"-->

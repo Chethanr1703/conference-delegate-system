@@ -130,6 +130,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                 <li class="nav-item"><a class="nav-link" href="#works">Previous Conferences</a></li>
                 <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
                 <li class="nav-item"><a class="nav-link" href="#admin">Admin</a></li>
+                <li class="nav-item"><a class="nav-link" href="delegateLogin.jsp">Delegate Login</a></li>
             </ul>
         </div>
     </div>

@@ -3,7 +3,7 @@
 pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html lang="en">
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
 
     <meta charset="UTF-8">
@@ -68,8 +68,14 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         footer{
             background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
             color:white;
-            padding:25px;
-            margin-top:60px;
+            text-align:center;
+
+            bottom:0;
+            left:0;
+            width:100%;
+             padding: 15px 0;
+
+            margin-top:00px;
         }
 
         /* OFFCANVAS BUTTON */
@@ -80,6 +86,37 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             background:none;
             color:white;
         }
+
+        .feature-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-left: 6px solid #0d6efd;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-header h5 {
+    color: #0d6efd;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.card-body p {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.label {
+    font-weight: bold;
+    color: #444;
+}
 
     </style>
 
@@ -137,33 +174,26 @@ CRDMS TPO / HR
 
         <div class="d-flex flex-column p-3 gap-3">
 
-            <a href="tpo/dashboard"
-               class="btn btn-outline-primary rounded-pill fw-semibold py-2">
-
-                View Invitations
-
+            <a href="${pageContext.request.contextPath}/allConference"
+               class="btn btn-outline-secondary rounded-pill fw-semibold py-2">
+                All Conferences
             </a>
 
-            <a href="tpo/acceptedConferences"
+            <a href="${pageContext.request.contextPath}/acceptedConferences"
                class="btn btn-outline-success rounded-pill fw-semibold py-2">
 
                 Accepted Conferences
 
             </a>
 
-            <a href="tpo/upcomingEvents"
-               class="btn btn-outline-info rounded-pill fw-semibold py-2">
+            <a href="/dashboard"
+               class="btn btn-outline-primary rounded-pill fw-semibold py-2">
 
-                Upcoming Events
-
-            </a>
-
-            <a href="tpo/profile"
-               class="btn btn-outline-secondary rounded-pill fw-semibold py-2">
-
-                Profile Settings
+                View Invitations
 
             </a>
+
+
 
         </div>
 
@@ -189,59 +219,10 @@ CRDMS TPO / HR
 
 </section>
 
-<!-- STATISTICS -->
 
 <section class="container mt-5">
 
-    <div class="row g-4">
 
-        <div class="col-md-4" data-aos="zoom-in">
-
-            <div class="stat-box">
-
-                <h3 class="text-primary">12</h3>
-
-                <p>Total Invitations</p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4" data-aos="zoom-in">
-
-            <div class="stat-box">
-
-                <h3 class="text-success">7</h3>
-
-                <p>Accepted Conferences</p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4" data-aos="zoom-in">
-
-            <div class="stat-box">
-
-                <h3 class="text-warning">3</h3>
-
-                <p>Upcoming Conferences</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- INVITATION CARDS -->
-
-<section class="container mt-5">
-
-    <h3 class="text-center mb-4">
-        Conference Invitations
-    </h3>
 
     <div class="row">
 
@@ -250,8 +231,8 @@ CRDMS TPO / HR
             <div class="col-md-4 mb-4" data-aos="fade-up">
 
                 <div class="feature-card">
-
-                    <h5>${conf.conferenceTopic}</h5>
+                    <strong>Conference Topic:</strong>
+                    <h4>${conf.conferenceTopic}</h4>
 
                     <p>
                         <strong>Host:</strong>
@@ -268,7 +249,7 @@ CRDMS TPO / HR
                         ${conf.time}
                     </p>
 
-                    <form action="tpo/respondConference" method="post">
+                    <form action="respondConference" method="post">
 
                         <input type="hidden"
                                name="id"
@@ -276,7 +257,8 @@ CRDMS TPO / HR
 
                         <div class="d-flex gap-2">
 
-                            <button class="btn btn-success w-50">
+                            <button name="response"
+                                    value="accepted" class="btn btn-success w-50">
                                 Accept
                             </button>
 
@@ -299,6 +281,186 @@ CRDMS TPO / HR
     </div>
 
 </section>
+<c:choose>
+
+
+    <c:when test="${showAccepted}">
+
+        <section class="container mt-5">
+
+            <h3 class="text-center mb-4 text-success">
+                Accepted Conferences
+            </h3>
+
+            <div class="row">
+
+                <c:forEach var="conf" items="${acceptedConferenceList}">
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="feature-card">
+                            <strong>Conference Topic:</strong>
+                            <h4>${conf.conferenceTopic}</h4>
+
+                            <p>
+                                <strong>Host:</strong>
+                                ${conf.hostName}
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${conf.date}
+                            </p>
+
+                            <p>
+                                <strong>Time:</strong>
+                                ${conf.time}
+                            </p>
+
+                            <form action="loadParticipantsPage" method="get">
+
+                                <input type="hidden"
+                                       name="conferenceId"
+                                       value="${conf.id}">
+
+                                <button class="btn btn-primary w-100">
+                                    Send Invitee
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </c:forEach>
+
+            </div>
+
+        </section>
+
+    </c:when>
+
+
+
+    <c:when test="${showAllConference}">
+
+        <section class="container mt-5">
+
+            <h3 class="text-center mb-4">
+                All Conferences
+            </h3>
+
+            <div class="row">
+
+                <c:forEach var="conf" items="${allConferenceList}">
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="feature-card">
+                            <strong>Conference Topic:</strong>
+                            <h4>${conf.conferenceTopic}</h4>
+
+                            <p>
+                                <strong>Host:</strong>
+                                ${conf.hostName}
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${conf.date}
+                            </p>
+
+                            <p>
+                                <strong>Time:</strong>
+                                ${conf.time}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </c:forEach>
+
+            </div>
+
+        </section>
+
+    </c:when>
+
+
+
+
+    <c:otherwise>
+
+        <section class="container mt-5">
+
+            <h3 class="text-center mb-4">
+                Conference Invitations
+            </h3>
+
+            <div class="row">
+
+                <c:forEach var="conf" items="${conferenceList}">
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="feature-card">
+                            <strong>Conference Topic:</strong>
+                            <h5>${conf.conferenceTopic}</h5>
+
+                            <p>
+                                <strong>Host:</strong>
+                                ${conf.hostName}
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${conf.date}
+                            </p>
+
+                            <p>
+                                <strong>Time:</strong>
+                                ${conf.time}
+                            </p>
+
+                            <form action="respondConference" method="post">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="${conf.id}">
+
+                                <div class="d-flex gap-2">
+
+                                    <button name="response"
+                                            value="accepted"
+                                            class="btn btn-success w-50">
+                                        Accept
+                                    </button>
+
+                                    <button name="response"
+                                            value="decline"
+                                            class="btn btn-danger w-50">
+                                        Decline
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </c:forEach>
+
+            </div>
+
+        </section>
+
+    </c:otherwise>
+
+</c:choose>
 
 <footer class="text-center">
 

@@ -1,8 +1,11 @@
 package com.xworkz.confManage.entity.delegates;
 
+import com.xworkz.confManage.entity.students.ParticipantsEntity;
+
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "delegates")
@@ -18,6 +21,9 @@ import javax.persistence.*;
         private String password;
 
         private String role; // "TPO" or "HR"
+
+    @OneToMany(mappedBy="delegate")
+    private List<ParticipantsEntity> participants;
     }
 
 

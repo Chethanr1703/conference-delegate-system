@@ -1,6 +1,7 @@
 package com.xworkz.confManage.service.conference;
 
 import com.xworkz.confManage.dao.conference.ConferenceDAO;
+import com.xworkz.confManage.dao.delegateDashBoard.DelegateDashboardDAO;
 import com.xworkz.confManage.dao.delegates.DelegateDAO;
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
@@ -10,7 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +24,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    DelegateDashboardDAO delegateDashboard;
 
     @Override
     public boolean saveConference(ConferenceDTO conferenceDTO) {
@@ -223,8 +226,6 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
 
-
-
     public String generatePassword(String email) {
 
         String name = email.split("@")[0];
@@ -235,4 +236,13 @@ public class ConferenceServiceImpl implements ConferenceService {
             return name + "@123";
         }
     }
+
+
+
+
+
+
+
+
+
 }

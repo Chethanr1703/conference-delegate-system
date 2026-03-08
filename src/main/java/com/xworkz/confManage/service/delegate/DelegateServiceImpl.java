@@ -16,7 +16,7 @@ public class DelegateServiceImpl implements DelegateService {
 
 
     @Override
-    public boolean delegateLogin(String email, String password) {
+    public DelegateUserEntity delegateLogin(String email, String password) {
         if (email == null || !email.contains("@")) {
             throw new UserNotFoundException("Invalid email");
         }
@@ -25,13 +25,13 @@ public class DelegateServiceImpl implements DelegateService {
         }
         DelegateUserEntity delegateUserEntity =delegateDAO.loginByEmail(email);
         if (delegateUserEntity == null) {
-            return false; // email not found
+            return null; // email not found
         }
         String originalPassward = delegateUserEntity.getPassword();
         if(originalPassward.equals(password)){
-            return  true;
+            return  delegateUserEntity;
         }else {
-            return false;
+            return new DelegateUserEntity();
         }
     }
     }

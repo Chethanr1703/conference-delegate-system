@@ -1,10 +1,11 @@
 package com.xworkz.confManage.entity.conference;
 
+import com.xworkz.confManage.entity.students.ParticipantsEntity;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
+import java.util.List;
 
 
 @Data
@@ -23,4 +24,10 @@ public class ConferenceEntity {
     private String time;
     private boolean active = false;
     private boolean emailSent=false;
+
+    private String delegateResponse;
+    private boolean emailSentToParticipants;
+
+    @OneToMany(mappedBy="conference")
+    private List<ParticipantsEntity> participants;
 }

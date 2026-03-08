@@ -111,14 +111,14 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                    name="password" required>
         </div>
 
-        <div class="mb-3">
-            <select class="form-control" name="role" required>
-                <option value="">Select Role</option>
-                <option value="TPO">TPO</option>
-                <option value="HR">HR</option>
-                <option value="Others">Others</option>
-            </select>
-        </div>
+<!--        <div class="mb-3">-->
+<!--            <select class="form-control" name="role" required>-->
+<!--                <option value="">Select Role</option>-->
+<!--                <option value="TPO">TPO</option>-->
+<!--                <option value="HR">HR</option>-->
+<!--                <option value="Others">Others</option>-->
+<!--            </select>-->
+<!--        </div>-->
 
         <button type="submit" class="btn btn-role w-100">
             Login Securely
