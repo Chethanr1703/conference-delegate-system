@@ -19,6 +19,20 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <style>
 
+
+        html, body{
+height:100%;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f4f7fb;
+
+display:flex;
+flex-direction:column;
+min-height:100vh;
+}
+
         body{
             font-family:'Segoe UI',sans-serif;
             background:#f4f7fb;
@@ -75,7 +89,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             width:100%;
              padding: 15px 0;
 
-            margin-top:00px;
+            margin-top:auto;
         }
 
         /* OFFCANVAS BUTTON */

@@ -134,4 +134,8 @@ public class DelegatesController {
 
         return "delegatesPage";
     }
+    @GetMapping("loadParticipantsPage")
+    public  String  getParticipantsPage(){
+        return "ParticipatesInvitee";
+    }
 }
