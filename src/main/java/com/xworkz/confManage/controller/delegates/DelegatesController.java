@@ -6,6 +6,10 @@ import com.xworkz.confManage.exception.UserNotFoundException;
 import com.xworkz.confManage.service.conference.ConferenceService;
 import com.xworkz.confManage.service.delegate.DelegateService;
 import com.xworkz.confManage.service.delegatedashboard.DelegateDashboardService;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -137,5 +142,53 @@ public class DelegatesController {
     @GetMapping("loadParticipantsPage")
     public  String  getParticipantsPage(){
         return "ParticipatesInvitee";
+    }
+
+    //------------implementing Bulk Submission using Excel sheet
+
+
+    @GetMapping("/downloadTemplate")
+    public void downloadTemplate(HttpServletResponse response) throws Exception {
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Participants");
+
+        Row header = sheet.createRow(0);
+
+        header.createCell(0).setCellValue("slno");
+        header.createCell(1).setCellValue("name");
+        header.createCell(2).setCellValue("email");
+        header.createCell(3).setCellValue("mobile");
+        header.createCell(4).setCellValue("organization");
+        header.createCell(5).setCellValue("attending");
+
+        response.setContentType("application/octet-stream");
+
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=participants_template.xlsx"
+        );
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
+    //------ reading Excel File//
+    @PostMapping("/delegate/uploadParticipants")
+    public String uploadParticipants(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam int conferenceId,
+            HttpSession session){
+
+        DelegateUserEntity delegate =
+                (DelegateUserEntity) session.getAttribute("user");
+
+        participantService.processExcel(
+                file,
+                conferenceId,
+                delegate.getId()
+        );
+
+        return "redirect:/delegate/dashboard";
     }
 }

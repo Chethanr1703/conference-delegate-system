@@ -167,13 +167,13 @@ CRDMS
                         Upload multiple participants using Excel template
                     </p>
 
-                    <form action="/delegate/downloadTemplate" method="get" class="mb-3">
+                    <form action="${pageContext.request.contextPath}/downloadTemplate" method="get" class="mb-3">
 
                         <input type="hidden"
                                name="conferenceId"
                                value="${conferenceId}">
 
-                        <button class="btn btn-outline-primary w-100">
+                        <button id="downloadBtn" class="btn btn-outline-primary w-100">
 
                             <i class="fas fa-download"></i>
                             Download Template
@@ -184,7 +184,7 @@ CRDMS
 
                     <div class="file-box">
 
-                        <form action="/delegate/uploadParticipants"
+                        <form action="/uploadParticipants"
                               method="post"
                               enctype="multipart/form-data">
 
@@ -197,7 +197,7 @@ CRDMS
                                    class="form-control mb-3"
                                    required />
 
-                            <button class="btn btn-success w-100">
+                            <button id="uploadBtn" class="btn btn-success w-100"  disabled>
 
                                 <i class="fas fa-upload"></i>
                                 Upload Participants
@@ -267,6 +267,17 @@ CRDMS
     AOS.init({
     duration:1000
     });
+
+    const downloadBtn = document.getElementById("downloadBtn");
+    const uploadBtn = document.getElementById("uploadBtn");
+
+    downloadBtn.addEventListener("click", function () {
+
+        uploadBtn.disabled = false;
+
+    });
+
+</script>
 
 </script>
 

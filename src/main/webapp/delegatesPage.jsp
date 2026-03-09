@@ -200,7 +200,7 @@ CRDMS TPO / HR
 
             </a>
 
-            <a href="/dashboard"
+            <a href="${pageContext.request.contextPath}/delegatesPage"
                class="btn btn-outline-primary rounded-pill fw-semibold py-2">
 
                 View Invitations
@@ -405,74 +405,7 @@ CRDMS TPO / HR
 
 
 
-    <c:otherwise>
 
-        <section class="container mt-5">
-
-            <h3 class="text-center mb-4">
-                Conference Invitations
-            </h3>
-
-            <div class="row">
-
-                <c:forEach var="conf" items="${conferenceList}">
-
-                    <div class="col-md-4 mb-4">
-
-                        <div class="feature-card">
-                            <strong>Conference Topic:</strong>
-                            <h5>${conf.conferenceTopic}</h5>
-
-                            <p>
-                                <strong>Host:</strong>
-                                ${conf.hostName}
-                            </p>
-
-                            <p>
-                                <strong>Date:</strong>
-                                ${conf.date}
-                            </p>
-
-                            <p>
-                                <strong>Time:</strong>
-                                ${conf.time}
-                            </p>
-
-                            <form action="respondConference" method="post">
-
-                                <input type="hidden"
-                                       name="id"
-                                       value="${conf.id}">
-
-                                <div class="d-flex gap-2">
-
-                                    <button name="response"
-                                            value="accepted"
-                                            class="btn btn-success w-50">
-                                        Accept
-                                    </button>
-
-                                    <button name="response"
-                                            value="decline"
-                                            class="btn btn-danger w-50">
-                                        Decline
-                                    </button>
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                </c:forEach>
-
-            </div>
-
-        </section>
-
-    </c:otherwise>
 
 </c:choose>
 
