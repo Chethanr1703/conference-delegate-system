@@ -238,5 +238,10 @@ public class DelegatesController {
         return "viewParticipants"; // JSP page
     }
 
+    @GetMapping("/individualInviteePage")
+    public  String  getIndividualInvitee(@RequestParam int conferenceId,Model model){
+        System.out.println(conferenceId);
+        return "individualParticipantsInvitee";
+    }
 
 }

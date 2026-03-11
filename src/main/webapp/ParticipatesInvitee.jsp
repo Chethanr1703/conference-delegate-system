@@ -42,8 +42,10 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
         .main-panel{
         background:white;
-        border-radius:18px;
-        padding:40px;
+        border-radius:12px;
+        padding:30px;
+        max-width:1000px;
+margin:auto;
         box-shadow:0 10px 25px rgba(0,0,0,0.08);
         }
 
@@ -147,15 +149,15 @@ CRDMS
 
 <!-- MAIN PANEL -->
 
-<section class="container mt-5">
+<section class="container mt-4">
 
     <div class="main-panel">
 
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
 
             <!-- BULK SUBMISSION -->
 
-            <div class="col-md-4" data-aos="fade-right">
+            <div class="col-md-5" data-aos="fade-right">
                 <c:if test="${not empty successMsg}">
                     <div class="alert alert-success">
                         ${successMsg}
@@ -235,7 +237,7 @@ CRDMS
 
             <!-- INDIVIDUAL INVITEE -->
 
-            <div class="col-md-6" data-aos="fade-left">
+            <div class="col-md-5" data-aos="fade-left">
 
                 <div class="option-tile">
 
