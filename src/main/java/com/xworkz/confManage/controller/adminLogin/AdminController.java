@@ -1,7 +1,6 @@
 package com.xworkz.confManage.controller.adminLogin;
 
-import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import com.xworkz.confManage.exception.UserNotFoundException;
 import com.xworkz.confManage.service.admin.AdminService;
 import com.xworkz.confManage.service.participants.ParticipantsService;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller

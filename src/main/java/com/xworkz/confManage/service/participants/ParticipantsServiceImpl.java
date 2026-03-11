@@ -5,7 +5,7 @@ import com.xworkz.confManage.dao.delegates.DelegateDAO;
 import com.xworkz.confManage.dao.participants.ParticipantsDAO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import com.xworkz.confManage.utils.ParticipantsValidator;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service

@@ -1,12 +1,11 @@
 package com.xworkz.confManage.dao.participants;
 
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.Collections;
 import java.util.List;
 
 @Repository

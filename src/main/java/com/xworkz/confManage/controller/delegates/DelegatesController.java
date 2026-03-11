@@ -2,7 +2,7 @@ package com.xworkz.confManage.controller.delegates;
 
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import com.xworkz.confManage.exception.UserNotFoundException;
 import com.xworkz.confManage.service.delegate.DelegateService;
 import com.xworkz.confManage.service.delegatedashboard.DelegateDashboardService;

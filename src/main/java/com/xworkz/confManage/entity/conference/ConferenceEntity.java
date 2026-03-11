@@ -1,6 +1,6 @@
 package com.xworkz.confManage.entity.conference;
 
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package com.xworkz.confManage.dao.participants;
 
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 
 import java.util.List;
 

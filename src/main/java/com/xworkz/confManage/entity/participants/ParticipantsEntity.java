@@ -1,4 +1,4 @@
-package com.xworkz.confManage.entity.students;
+package com.xworkz.confManage.entity.participants;
 
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;

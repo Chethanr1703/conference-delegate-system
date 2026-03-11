@@ -1,6 +1,6 @@
 package com.xworkz.confManage.service.participants;
 
-import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
