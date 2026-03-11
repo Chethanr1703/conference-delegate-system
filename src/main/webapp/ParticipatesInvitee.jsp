@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+
+<html xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
 
     <meta charset="UTF-8">
@@ -153,7 +155,18 @@ CRDMS
 
             <!-- BULK SUBMISSION -->
 
-            <div class="col-md-6" data-aos="fade-right">
+            <div class="col-md-4" data-aos="fade-right">
+                <c:if test="${not empty successMsg}">
+                    <div class="alert alert-success">
+                        ${successMsg}
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty errorMsg}">
+                    <div class="alert alert-danger">
+                        ${errorMsg}
+                    </div>
+                </c:if>
 
                 <div class="option-tile">
 
@@ -184,7 +197,7 @@ CRDMS
 
                     <div class="file-box">
 
-                        <form action="/uploadParticipants"
+                        <form action="${pageContext.request.contextPath}/uploadParticipants"
                               method="post"
                               enctype="multipart/form-data">
 
@@ -197,14 +210,22 @@ CRDMS
                                    class="form-control mb-3"
                                    required />
 
-                            <button id="uploadBtn" class="btn btn-success w-100"  disabled>
+                            <button id="uploadBtn" class="btn btn-success w-100"  >
 
                                 <i class="fas fa-upload"></i>
                                 Upload Participants
 
                             </button>
 
-                        </form>
+                        </form><c:if test="${not empty errors}">
+                        <div class="alert alert-danger mt-3">
+                            <ul>
+                                <c:forEach var="e" items="${errors}">
+                                    <li>${e}</li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
 
                     </div>
 
@@ -268,14 +289,14 @@ CRDMS
     duration:1000
     });
 
-    const downloadBtn = document.getElementById("downloadBtn");
-    const uploadBtn = document.getElementById("uploadBtn");
+<!--    const downloadBtn = document.getElementById("downloadBtn");-->
+<!--    const uploadBtn = document.getElementById("uploadBtn");-->
 
-    downloadBtn.addEventListener("click", function () {
+<!--    downloadBtn.addEventListener("click", function () {-->
 
-        uploadBtn.disabled = false;
+<!--        uploadBtn.disabled = false;-->
 
-    });
+<!--    });-->
 
 </script>
 

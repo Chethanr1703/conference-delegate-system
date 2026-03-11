@@ -20,97 +20,159 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            scroll-behavior: smooth;
-        }
+        font-family: 'Segoe UI', sans-serif;
+        scroll-behavior: smooth;
 
-        /* Navbar */
-        .navbar {
-            transition: 0.3s;
-        }
+        /* Soft project background */
+        background: linear-gradient(135deg,#eef3f8,#d8e3ec);
 
-        .navbar.scrolled {
-            background: #1c1c1c !important;
-        }
+        position: relative;
+        overflow-x: hidden;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            padding: 140px 0;
-        }
+    /* Modern animated background blobs */
 
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-        }
+    body::before,
+    body::after{
+        content:"";
+        position:fixed;
+        width:420px;
+        height:420px;
+        border-radius:50%;
+        filter:blur(120px);
+        z-index:-1;
+    }
 
-        .btn-custom {
-            padding: 12px 25px;
-            border-radius: 30px;
-            transition: 0.3s;
-        }
+    /* blue blob */
 
-        .btn-host {
-            background-color: #ff9800;
-            color: white;
-        }
+    body::before{
+        background:#2c5364;
+        top:-120px;
+        left:-120px;
+        opacity:0.18;
+        animation:floatBlob 18s infinite alternate ease-in-out;
+    }
 
-        .btn-host:hover {
-            background-color: #e68900;
-        }
+    /* teal blob */
 
-        .btn-delegate {
-            background-color: #00c853;
-            color: white;
-        }
+    body::after{
+        background:#203a43;
+        bottom:-120px;
+        right:-120px;
+        opacity:0.18;
+        animation:floatBlob 22s infinite alternate-reverse ease-in-out;
+    }
 
-        .btn-delegate:hover {
-            background-color: #00a843;
+    @keyframes floatBlob{
+        0%{
+            transform:translate(0,0) scale(1);
         }
+        50%{
+            transform:translate(60px,-40px) scale(1.1);
+        }
+        100%{
+            transform:translate(-40px,40px) scale(1);
+        }
+    }
 
-        /* Section */
-        .section {
-            padding: 80px 0;
-        }
+    /* Navbar */
 
-        .section h2 {
-            font-weight: bold;
-        }
+    .navbar{
+        transition:0.3s;
+    }
 
-        /* Cards */
-        .card {
-            border: none;
-            border-radius: 15px;
-            transition: 0.4s;
-        }
+    .navbar.scrolled{
+        background:#1c1c1c !important;
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
+    /* Hero */
 
-        /* Forms */
-        form .form-control {
-            border-radius: 10px;
-            padding: 10px;
-        }
+    .hero{
+        background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+        color:white;
+        padding:140px 0;
+    }
 
-        .btn-main {
-            background-color: #2c5364;
-            color: white;
-        }
+    .hero h1{
+        font-size:3rem;
+        font-weight:bold;
+    }
 
-        .btn-main:hover {
-            background-color: #1e3c48;
-            color: white;
-        }
+    /* Buttons */
 
-        footer {
-            background: #1c1c1c;
-            color: white;
-            padding: 10px 0;
-        }
+    .btn-custom{
+        padding:12px 25px;
+        border-radius:30px;
+        transition:0.3s;
+    }
+
+    .btn-host{
+        background:#ff9800;
+        color:white;
+    }
+
+    .btn-host:hover{
+        background:#e68900;
+    }
+
+    .btn-delegate{
+        background:#00c853;
+        color:white;
+    }
+
+    .btn-delegate:hover{
+        background:#00a843;
+    }
+
+    /* Sections */
+
+    .section{
+        padding:80px 0;
+    }
+
+    .section h2{
+        font-weight:bold;
+    }
+
+    /* Cards */
+
+    .card{
+        border:none;
+        border-radius:15px;
+        transition:0.4s;
+    }
+
+    .card:hover{
+        transform:translateY(-8px);
+        box-shadow:0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Forms */
+
+    form .form-control{
+        border-radius:10px;
+        padding:10px;
+    }
+
+    /* Buttons */
+
+    .btn-main{
+        background:#2c5364;
+        color:white;
+    }
+
+    .btn-main:hover{
+        background:#1e3c48;
+        color:white;
+    }
+
+    /* Footer */
+
+    footer{
+        background:#1c1c1c;
+        color:white;
+        padding:10px 0;
+    }
     </style>
 </head>
 

@@ -58,8 +58,8 @@ public class ModuleConfiguration {
     @Bean("multipartResolver")
     public CommonsMultipartResolver commonsMultipartResolver(){
         CommonsMultipartResolver commonsMultipartResolver=new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxInMemorySize(1048576);
-        commonsMultipartResolver.setMaxUploadSize(1048576);
+//        commonsMultipartResolver.setMaxInMemorySize(1048576);
+        commonsMultipartResolver.setMaxUploadSize(5242880);
         return commonsMultipartResolver;
     }
 

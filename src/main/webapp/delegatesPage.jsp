@@ -26,112 +26,153 @@ height:100%;
 
 body{
 font-family:'Segoe UI',sans-serif;
-background:#f4f7fb;
+
+/* soft project background */
+background:linear-gradient(135deg,#eef3f8,#dce6ef);
 
 display:flex;
 flex-direction:column;
 min-height:100vh;
+overflow-x:hidden;
+position:relative;
 }
 
-        body{
-            font-family:'Segoe UI',sans-serif;
-            background:#f4f7fb;
-        }
+/* subtle animated background */
 
-        /* NAVBAR */
-
-        .navbar{
-            background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
-        }
-
-        /* HERO */
-
-        .dashboard-hero{
-            background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-            color:white;
-            padding:70px 0;
-            text-align:center;
-        }
-
-        /* CARDS */
-
-        .feature-card{
-            background:white;
-            border-radius:15px;
-            padding:25px;
-            box-shadow:0 8px 20px rgba(0,0,0,0.08);
-            transition:0.3s;
-        }
-
-        .feature-card:hover{
-            transform:translateY(-6px);
-        }
-
-        /* STAT BOX */
-
-        .stat-box{
-            background:white;
-            padding:25px;
-            border-radius:15px;
-            text-align:center;
-            box-shadow:0 8px 20px rgba(0,0,0,0.08);
-        }
-
-        /* FOOTER */
-
-        footer{
-            background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
-            color:white;
-            text-align:center;
-
-            bottom:0;
-            left:0;
-            width:100%;
-             padding: 15px 0;
-
-            margin-top:auto;
-        }
-
-        /* OFFCANVAS BUTTON */
-
-        .menu-btn{
-            font-size:22px;
-            border:none;
-            background:none;
-            color:white;
-        }
-
-        .feature-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    border-left: 6px solid #0d6efd;
+body::before,
+body::after{
+content:"";
+position:fixed;
+width:420px;
+height:420px;
+border-radius:50%;
+filter:blur(120px);
+z-index:-1;
 }
 
-.feature-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+body::before{
+background:#2c5364;
+top:-120px;
+left:-120px;
+opacity:0.15;
+animation:floatBlob 18s infinite alternate ease-in-out;
 }
 
-.card-header h5 {
-    color: #0d6efd;
-    font-weight: 600;
-    margin-bottom: 15px;
+body::after{
+background:#203a43;
+bottom:-120px;
+right:-120px;
+opacity:0.15;
+animation:floatBlob 22s infinite alternate-reverse ease-in-out;
 }
 
-.card-body p {
-    font-size: 15px;
-    margin-bottom: 8px;
+@keyframes floatBlob{
+0%{transform:translate(0,0) scale(1);}
+50%{transform:translate(60px,-40px) scale(1.1);}
+100%{transform:translate(-40px,40px) scale(1);}
 }
 
-.label {
-    font-weight: bold;
-    color: #444;
+/* NAVBAR */
+
+.navbar{
+background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+box-shadow:0 4px 15px rgba(0,0,0,0.25);
 }
 
+/* HERO */
+
+.dashboard-hero{
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+padding:70px 0;
+text-align:center;
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* CARDS */
+
+.feature-card{
+background:rgba(255,255,255,0.95);
+border-radius:18px;
+padding:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+transition:all 0.35s ease;
+border-left:5px solid #2c5364;
+backdrop-filter:blur(6px);
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+box-shadow:0 18px 35px rgba(0,0,0,0.18);
+}
+
+/* CARD TEXT */
+
+.feature-card h4{
+color:#2c5364;
+font-weight:600;
+margin-top:5px;
+}
+
+.feature-card p{
+font-size:14px;
+color:#555;
+margin-bottom:6px;
+}
+
+/* BUTTONS */
+
+.btn-success,
+.btn-danger,
+.btn-primary{
+border-radius:30px;
+font-weight:500;
+}
+
+/* OFFCANVAS MENU BUTTON */
+
+.menu-btn{
+font-size:22px;
+border:none;
+background:none;
+color:white;
+transition:0.3s;
+}
+
+.menu-btn:hover{
+transform:scale(1.15);
+}
+
+/* SIDEBAR */
+
+.offcanvas-header{
+background:linear-gradient(135deg,#203a43,#2c5364);
+}
+
+.offcanvas-body{
+background:#f4f7fb;
+}
+
+/* SIDEBAR BUTTONS */
+
+.offcanvas-body a{
+transition:0.25s;
+}
+
+.offcanvas-body a:hover{
+transform:translateX(5px);
+}
+
+/* FOOTER */
+
+footer{
+background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+padding:15px 0;
+margin-top:auto;
+box-shadow:0 -4px 12px rgba(0,0,0,0.2);
+}
     </style>
 
 </head>
@@ -156,7 +197,7 @@ min-height:100vh;
 CRDMS TPO / HR
 </span>
 
-        <a href="index.jsp" class="btn btn-warning btn-sm">
+        <a href="delegateLogin.jsp" class="btn btn-warning btn-sm">
             Logout
         </a>
 
@@ -331,17 +372,33 @@ CRDMS TPO / HR
                                 ${conf.time}
                             </p>
 
-                            <form action="loadParticipantsPage" method="get">
+                            <div class="d-flex justify-content-between gap-2 mt-3">
 
-                                <input type="hidden"
-                                       name="conferenceId"
-                                       value="${conf.id}">
+                                <form action="loadParticipantsPage" method="get" class="w-50">
 
-                                <button class="btn btn-primary w-100">
-                                    Send Invitee
-                                </button>
+                                    <input type="hidden"
+                                           name="conferenceId"
+                                           value="${conf.id}">
 
-                            </form>
+                                    <button class="btn btn-primary w-100">
+                                        Send Invitee
+                                    </button>
+
+                                </form>
+
+                                <form action="participants" method="get" class="w-50">
+
+                                    <input type="hidden"
+                                           name="conferenceId"
+                                           value="${conf.id}">
+
+                                    <button class="btn btn-outline-primary w-100">
+                                        View Participants
+                                    </button>
+
+                                </form>
+
+                            </div>
 
                         </div>
 

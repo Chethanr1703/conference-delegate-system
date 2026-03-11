@@ -1,6 +1,7 @@
 package com.xworkz.confManage.controller.conference;
 
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
+import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.service.conference.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -113,12 +115,14 @@ public class ConferenceController {
         return "redirect:/admin/dashboard";
     }
 
-    @GetMapping({"", "/"})
+    @GetMapping({"http://localhost:8080/conference/", "conference/"})
     public String loadHome(Model model) {
-        System.out.println(conferenceService.getSentConferences().size());
+        System.out.println("hi");
+        System.out.println(conferenceService.getSentConferences());
+        List<ConferenceDTO> upcoming =
+                conferenceService.getSentConferences();
 
-        model.addAttribute("upcomingList",
-                conferenceService.getSentConferences());
+        model.addAttribute("upcomingList", upcoming);
 
         return "index";
     }

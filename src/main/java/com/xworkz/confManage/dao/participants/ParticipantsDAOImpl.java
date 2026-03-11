@@ -1,7 +1,64 @@
 package com.xworkz.confManage.dao.participants;
 
+import com.xworkz.confManage.entity.students.ParticipantsEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class ParticipantsDAOImpl implements ParticipantsDAO{
+
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
+    @Override
+    public void saveAll(List<ParticipantsEntity> validParticipants) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            entityManager.getTransaction().begin();
+            for (ParticipantsEntity p : validParticipants) {
+                entityManager.persist(p);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public List<ParticipantsEntity> findParticipants(int conferenceId, int delegateId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        List<ParticipantsEntity> list =
+                entityManager.createQuery(
+                                "FROM ParticipantsEntity p WHERE p.conference.id=:confId AND p.delegate.id=:delId",
+                                ParticipantsEntity.class)
+                        .setParameter("confId", conferenceId)
+                        .setParameter("delId", delegateId)
+                        .getResultList();
+
+        return list;
+    }
+
+    @Override
+    public List<ParticipantsEntity> findParticipantsForAdmin(int conferenceId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        List<ParticipantsEntity> list =
+                entityManager.createQuery(
+                                "FROM ParticipantsEntity p WHERE p.conference.id=:confId",
+                                ParticipantsEntity.class)
+                        .setParameter("confId", conferenceId)
+                        .getResultList();
+
+        return list;
+    }
 }

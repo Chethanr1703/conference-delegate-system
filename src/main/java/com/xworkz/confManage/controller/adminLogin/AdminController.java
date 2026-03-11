@@ -1,11 +1,17 @@
 package com.xworkz.confManage.controller.adminLogin;
 
+import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
+import com.xworkz.confManage.entity.students.ParticipantsEntity;
 import com.xworkz.confManage.exception.UserNotFoundException;
 import com.xworkz.confManage.service.admin.AdminService;
+import com.xworkz.confManage.service.participants.ParticipantsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -13,6 +19,8 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+    @Autowired
+    ParticipantsService participantsService;
 
     @PostMapping("/login")
     public String getSignIn(@RequestParam String email,
@@ -35,5 +43,17 @@ public class AdminController {
             model.addAttribute("errorMsg1", e.getMessage());
             return "index";
         }
+    }
+
+    @GetMapping("participantsAdmin")
+    public String viewParticipants(
+            @RequestParam int conferenceId,
+            Model model){
+        List<ParticipantsEntity> list =
+                participantsService.getParticipantsForAdmin(conferenceId);
+
+        model.addAttribute("participantsList", list);
+
+        return "viewParticipantsAdmin"; // JSP page
     }
 }

@@ -2,10 +2,11 @@ package com.xworkz.confManage.controller.delegates;
 
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
+import com.xworkz.confManage.entity.students.ParticipantsEntity;
 import com.xworkz.confManage.exception.UserNotFoundException;
-import com.xworkz.confManage.service.conference.ConferenceService;
 import com.xworkz.confManage.service.delegate.DelegateService;
 import com.xworkz.confManage.service.delegatedashboard.DelegateDashboardService;
+import com.xworkz.confManage.service.participants.ParticipantsService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,7 +30,7 @@ public class DelegatesController {
     DelegateService delegateService;
 
     @Autowired
-    ConferenceService conferenceService;
+    ParticipantsService participantsService;
 
     @Autowired
     DelegateDashboardService delegateDashboardService;
@@ -140,7 +142,12 @@ public class DelegatesController {
         return "delegatesPage";
     }
     @GetMapping("loadParticipantsPage")
-    public  String  getParticipantsPage(){
+    public String getParticipantsPage(
+            @RequestParam int conferenceId,
+            Model model){
+
+        model.addAttribute("conferenceId", conferenceId);
+
         return "ParticipatesInvitee";
     }
 
@@ -174,21 +181,62 @@ public class DelegatesController {
     }
 
     //------ reading Excel File//
-    @PostMapping("/delegate/uploadParticipants")
+    @PostMapping("/uploadParticipants")
     public String uploadParticipants(
             @RequestParam("file") MultipartFile file,
-            @RequestParam int conferenceId,
-            HttpSession session){
+            @RequestParam("conferenceId") int conferenceId,
+            HttpSession session,
+            Model model){
 
         DelegateUserEntity delegate =
-                (DelegateUserEntity) session.getAttribute("user");
+                (DelegateUserEntity) session.getAttribute("delegate");
 
-        participantService.processExcel(
-                file,
-                conferenceId,
-                delegate.getId()
-        );
+        List<String> errors =
+                participantsService.processExcel(
+                        file,
+                        conferenceId,
+                        delegate.getId()
+                );
 
-        return "redirect:/delegate/dashboard";
+        // If errors exist
+        if(!errors.isEmpty()){
+            model.addAttribute("errors", errors);
+            model.addAttribute("errorMsg",
+                    "Some records failed to upload. Please check below errors.");
+            return "ParticipatesInvitee";
+        }
+
+        // If everything saved successfully
+        model.addAttribute("successMsg",
+                "Participants uploaded successfully!");
+
+        return "ParticipatesInvitee";
     }
+
+    //---- view Participants
+
+    @GetMapping("/participants")
+    public String viewParticipants(
+            @RequestParam int conferenceId,
+            HttpSession session,
+            Model model){
+
+        DelegateUserEntity delegate =
+                (DelegateUserEntity) session.getAttribute("delegate");
+        if(delegate == null){
+            return "redirect:/delegateLogin";
+        }
+
+        List<ParticipantsEntity> list =
+                participantsService.getParticipants(
+                        conferenceId,
+                        delegate.getId()
+                );
+
+        model.addAttribute("participantsList", list);
+
+        return "viewParticipants"; // JSP page
+    }
+
+
 }

@@ -8,4 +8,6 @@ public interface DelegateDAO {
     boolean save(DelegateUserEntity entity);
 
     DelegateUserEntity loginByEmail(String email);
+
+    DelegateUserEntity findById(int delegateId);
 }

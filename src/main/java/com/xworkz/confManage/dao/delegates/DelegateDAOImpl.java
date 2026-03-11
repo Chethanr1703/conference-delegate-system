@@ -1,5 +1,6 @@
 package com.xworkz.confManage.dao.delegates;
 
+import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,6 +48,18 @@ public class DelegateDAOImpl implements DelegateDAO {
             return list.get(0);
         }
 
+        return null;
+    }
+
+    @Override
+    public DelegateUserEntity findById(int delegateId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query= entityManager.createQuery("from DelegateUserEntity ref where ref.id =:delegateId");
+        query.setParameter("delegateId",delegateId);
+        DelegateUserEntity delegateUser  =(DelegateUserEntity) query.getSingleResult();
+        if(delegateUser!=null){
+            return delegateUser;
+        }
         return null;
     }
 }

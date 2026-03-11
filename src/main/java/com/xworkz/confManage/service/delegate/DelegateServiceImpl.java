@@ -31,7 +31,7 @@ public class DelegateServiceImpl implements DelegateService {
         if(originalPassward.equals(password)){
             return  delegateUserEntity;
         }else {
-            return new DelegateUserEntity();
+            return null;
         }
     }
     }
