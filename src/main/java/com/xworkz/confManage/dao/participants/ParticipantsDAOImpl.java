@@ -60,4 +60,13 @@ public class ParticipantsDAOImpl implements ParticipantsDAO{
 
         return list;
     }
+
+    @Override
+    public boolean registerIndividualParticipants(ParticipantsEntity participants) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(participants);
+        entityManager.getTransaction().commit();
+        return true;
+    }
 }

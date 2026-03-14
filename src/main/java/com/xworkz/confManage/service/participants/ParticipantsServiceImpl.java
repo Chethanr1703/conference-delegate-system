@@ -3,6 +3,7 @@ package com.xworkz.confManage.service.participants;
 import com.xworkz.confManage.dao.conference.ConferenceDAO;
 import com.xworkz.confManage.dao.delegates.DelegateDAO;
 import com.xworkz.confManage.dao.participants.ParticipantsDAO;
+import com.xworkz.confManage.dto.participantsdto.ParticipantsDTO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
 import com.xworkz.confManage.entity.participants.ParticipantsEntity;
@@ -12,7 +13,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -129,6 +132,34 @@ public class ParticipantsServiceImpl implements ParticipantsService{
     @Override
     public List<ParticipantsEntity> getParticipantsForAdmin(int conferenceId) {
         return participantsDAO.findParticipantsForAdmin(conferenceId);
+    }
+
+    @Override
+    public boolean registerParticipant(ParticipantsDTO participantsDTO) {
+        if(participantsDTO!=null){
+            ParticipantsEntity participants = new ParticipantsEntity();
+            participants.setFullName(participantsDTO.getFullName());
+            participants.setEmail(participantsDTO.getEmail());
+            participants.setMobile(participantsDTO.getMobile());
+            participants.setOrganization(participantsDTO.getOrganization());
+            participants.setAttending(participantsDTO.getAttending());
+
+            // Fetch conference
+            ConferenceEntity conference =
+                    conferenceDAO.findById(participantsDTO.getConferenceId());
+
+            // Fetch delegate
+            DelegateUserEntity delegate =
+                    delegateDAO.findById(participantsDTO.getDelegateId());
+
+            participants.setConference(conference);
+            participants.setDelegate(delegate);
+            System.out.println("Conference ID from DTO: " + participantsDTO.getConferenceId());
+            System.out.println("Delegate ID from DTO: " + participantsDTO.getDelegateId());
+
+            return participantsDAO.registerIndividualParticipants(participants);
+        }
+        return false;
     }
 
 

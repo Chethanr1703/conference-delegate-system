@@ -1,7 +1,6 @@
 package com.xworkz.confManage.controller.conference;
 
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
-import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.service.conference.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,6 +95,43 @@ public class ConferenceController {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @PostMapping("/admin/approve")
     public String approveConference(@RequestParam int id) {
         boolean isApproved = conferenceService.approveConference(id);
@@ -115,15 +151,15 @@ public class ConferenceController {
         return "redirect:/admin/dashboard";
     }
 
-    @GetMapping({"http://localhost:8080/conference/", "conference/"})
-    public String loadHome(Model model) {
-        System.out.println("hi");
-        System.out.println(conferenceService.getSentConferences());
-        List<ConferenceDTO> upcoming =
-                conferenceService.getSentConferences();
-
-        model.addAttribute("upcomingList", upcoming);
-
-        return "index";
-    }
+//    @GetMapping({"http://localhost:8080/conference/", "conference/"})
+//    public String loadHome(Model model) {
+//        System.out.println("hi");
+//        System.out.println(conferenceService.getSentConferences());
+//        List<ConferenceDTO> upcoming =
+//                conferenceService.getSentConferences();
+//
+//        model.addAttribute("upcomingList", upcoming);
+//
+//        return "index";
+//    }
 }

@@ -1,5 +1,6 @@
 package com.xworkz.confManage.controller.delegates;
 
+import com.xworkz.confManage.dto.participantsdto.ParticipantsDTO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
 import com.xworkz.confManage.entity.participants.ParticipantsEntity;
@@ -14,13 +15,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -240,8 +244,81 @@ public class DelegatesController {
 
     @GetMapping("/individualInviteePage")
     public  String  getIndividualInvitee(@RequestParam int conferenceId,Model model){
-        System.out.println(conferenceId);
+        model.addAttribute("conferenceId", conferenceId);
         return "individualParticipantsInvitee";
     }
 
+
+    @PostMapping("/participantRegister")
+    public ModelAndView registerParticipant(
+            @RequestParam  int conferenceId,
+            @Valid ParticipantsDTO participantsDTO,
+            BindingResult bindingResult,
+            ModelAndView mv, HttpSession httpSession) {
+
+
+        System.out.println(conferenceId);
+        mv.addObject("dto", participantsDTO);
+
+        if (bindingResult.hasErrors()) {
+
+            if (bindingResult.hasFieldErrors("fullName")) {
+                mv.addObject("nameError",
+                        bindingResult.getFieldError("fullName").getDefaultMessage());
+            }
+
+            if (bindingResult.hasFieldErrors("email")) {
+                mv.addObject("emailError",
+                        bindingResult.getFieldError("email").getDefaultMessage());
+            }
+
+            if (bindingResult.hasFieldErrors("mobile")) {
+                mv.addObject("mobileError",
+                        bindingResult.getFieldError("mobile").getDefaultMessage());
+            }
+
+            if (bindingResult.hasFieldErrors("organization")) {
+                mv.addObject("orgError",
+                        bindingResult.getFieldError("organization").getDefaultMessage());
+            }
+
+            if (bindingResult.hasFieldErrors("attending")) {
+                mv.addObject("attendingError",
+                        bindingResult.getFieldError("attending").getDefaultMessage());
+            }
+
+//            mv.setViewName("individualParticipantsInvitee");
+//            return mv;
+        }
+        if(conferenceId >0){
+            participantsDTO.setConferenceId(conferenceId);
+            System.out.println("setting conf id "+  conferenceId);
+        }
+
+
+        DelegateUserEntity delegate =
+                (DelegateUserEntity) httpSession.getAttribute("delegate");
+        if (delegate != null) {
+            participantsDTO.setDelegateId(delegate.getId());
+            System.out.println("delegate id from the session"+ delegate.getId());
+        }
+        boolean isSaved = participantsService.registerParticipant(participantsDTO);
+
+        if (isSaved) {
+
+            mv.addObject("successMsg", "Participant registered successfully");
+            mv.addObject("dto", new ParticipantsDTO());
+
+        } else {
+
+            mv.addObject("errorMsg", "Something went wrong");
+
+        }
+
+        mv.setViewName("individualParticipantsInvitee");
+
+        return mv;
+    }
 }
+
+

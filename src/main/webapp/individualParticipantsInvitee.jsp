@@ -3,7 +3,7 @@
 pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html lang="en">
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
 
     <meta charset="UTF-8">
@@ -149,7 +149,11 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         </div>
     </c:if>
 
-    <form action="participantRegister" method="post">
+    <form action="${pageContext.request.contextPath}/participantRegister" method="post">
+
+        <input type="hidden"
+               name="conferenceId"
+               value="${conferenceId}">
 
         <div class="mb-3">
             <input type="text"

@@ -5,172 +5,227 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
 <html xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>CRDMS Admin Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <!-- ================= UI EDIT START ================= -->
-
     <style>
 
         html,body{
- height:100%;
- }
+        height:100%;
+        }
 
- body{
- font-family:'Segoe UI',sans-serif;
+        body{
+        font-family:'Segoe UI',sans-serif;
+        background:linear-gradient(135deg,#e6edf4,#cfd9e3);
+        display:flex;
+        flex-direction:column;
+        min-height:100vh;
+        position:relative;
+        overflow-x:hidden;
+        }
 
- /* slightly darker project gradient */
- background:linear-gradient(135deg,#e6edf4,#cfd9e3);
+        /* NAVBAR */
 
- display:flex;
- flex-direction:column;
- min-height:100vh;
- position:relative;
- overflow-x:hidden;
- }
+        .navbar{
+        background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+        box-shadow:0 4px 12px rgba(0,0,0,0.25);
+        }
 
- /* subtle pattern overlay */
+        /* Hamburger Menu */
 
- body::before{
- content:"";
- position:fixed;
- top:0;
- left:0;
- width:100%;
- height:100%;
+        .menu-btn{
+        font-size:22px;
+        border:none;
+        background:none;
+        color:white;
+        transition:0.3s;
+        }
 
- background-image:
- radial-gradient(circle at 25% 30%, rgba(44,83,100,0.08) 2px, transparent 2px),
- radial-gradient(circle at 75% 70%, rgba(44,83,100,0.08) 2px, transparent 2px);
+        .menu-btn:hover{
+        transform:scale(1.15);
+        }
 
- background-size:140px 140px;
- pointer-events:none;
- z-index:0;
- }
+        /* Sidebar */
 
- /* NAVBAR */
+        .offcanvas-body{
+        background:#f4f7fb;
+        }
 
- .navbar{
- background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
- box-shadow:0 4px 12px rgba(0,0,0,0.25);
- }
+        .offcanvas-body a{
+        transition:0.25s;
+        }
 
- /* SECTION TITLES */
+        .offcanvas-body a:hover{
+        transform:translateX(5px);
+        }
 
- .section-title{
- margin:60px 0 30px;
- font-weight:700;
- letter-spacing:0.5px;
- color:#1f2d3d;
- }
+        /* SECTION TITLES */
 
- /* CONFERENCE CARDS */
+        .section-title{
+        margin:60px 0 30px;
+        font-weight:700;
+        letter-spacing:0.5px;
+        color:#1f2d3d;
+        }
 
- .conf-card{
- background:white;
- border-radius:18px;
- padding:25px;
- box-shadow:0 10px 25px rgba(0,0,0,0.12);
- transition:all 0.3s ease;
- border-left:5px solid #2c5364;
- position:relative;
- z-index:1;
- }
+        /* CONFERENCE CARDS */
 
- .conf-card:hover{
- transform:translateY(-6px);
- box-shadow:0 16px 35px rgba(0,0,0,0.18);
- }
+        .conf-card{
+        background:white;
+        border-radius:18px;
+        padding:25px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        transition:all 0.3s ease;
+        border-left:5px solid #2c5364;
+        }
 
- .conf-card h5{
- font-weight:600;
- margin-bottom:12px;
- color:#2c5364;
- }
+        .conf-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 16px 35px rgba(0,0,0,0.18);
+        }
 
- .conf-card p{
- margin-bottom:6px;
- color:#555;
- font-size:14px;
- }
+        .conf-card h5{
+        font-weight:600;
+        margin-bottom:12px;
+        color:#2c5364;
+        }
 
- /* BUTTON */
+        .conf-card p{
+        margin-bottom:6px;
+        color:#555;
+        font-size:14px;
+        }
 
- .btn-admin{
- background:#2c5364;
- color:white;
- border:none;
- }
+        /* TABLE */
 
- .btn-admin:hover{
- background:#1e3c48;
- color:white;
- }
+        .table-section{
+        background:white;
+        border-radius:18px;
+        padding:30px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        }
 
- /* TABLE SECTION */
+        /* FOOTER */
 
- .table-section{
- background:white;
- border-radius:18px;
- padding:30px;
- box-shadow:0 10px 25px rgba(0,0,0,0.12);
- position:relative;
- z-index:1;
- }
+        footer{
+        background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+        color:white;
+        text-align:center;
+        padding:18px;
+        margin-top:auto;
+        }
 
- /* TABLE */
-
- .table{
- border-radius:10px;
- overflow:hidden;
- }
-
- .table thead{
- background:#2c5364;
- color:white;
- }
-
- /* FOOTER */
-
- footer{
- background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
- color:white;
- text-align:center;
- padding:18px;
- margin-top:auto;
- box-shadow:0 -4px 12px rgba(0,0,0,0.2);
- }
     </style>
-
-    <!-- ================= UI EDIT END ================= -->
 
 </head>
 
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">CRDMS Admin</a>
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="admin/dashboard">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link text-warning" href="index.jsp">Logout</a></li>
-        </ul>
+
+<nav class="navbar navbar-dark">
+
+    <div class="container-fluid">
+
+        <button class="menu-btn"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#adminSidebar">
+
+            <i class="fas fa-bars"></i>
+
+        </button>
+
+        <span class="navbar-brand fw-bold ms-2">
+CRDMS Admin
+</span>
+
+        <a href="index.jsp" class="btn btn-warning btn-sm">
+            Logout
+        </a>
+
     </div>
+
 </nav>
 
-<!-- ================= UI EDIT START ================= -->
-<main class="flex-grow-1">
 
+<!-- ADMIN SIDEBAR -->
+
+<div class="offcanvas offcanvas-start shadow"
+     tabindex="-1"
+     id="adminSidebar"
+     style="width:270px;">
+
+    <div class="offcanvas-header text-white"
+         style="background:linear-gradient(135deg,#203a43,#2c5364);">
+
+        <h5 class="offcanvas-title fw-bold">
+            Admin Dashboard
+        </h5>
+
+        <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="offcanvas">
+        </button>
+
+    </div>
+
+    <div class="offcanvas-body p-0">
+
+        <div class="d-flex flex-column p-3 gap-3">
+
+            <a href="admin/dashboard"
+               class="btn btn-outline-secondary rounded-pill fw-semibold">
+
+                All Conferences
+
+            </a>
+
+            <a href="admin/dashboard"
+               class="btn btn-outline-danger rounded-pill fw-semibold">
+
+                Pending Conferences
+
+            </a>
+
+            <a href="admin/dashboard"
+               class="btn btn-outline-success rounded-pill fw-semibold">
+
+                Approved Conferences
+
+            </a>
+
+            <a href="admin/dashboard"
+               class="btn btn-outline-secondary rounded-pill fw-semibold">
+
+                Sent Conferences
+
+            </a>
+            <a href="admin/dashboard"
+               class="btn btn-outline-primary rounded-pill fw-semibold">
+
+                View Responses
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<main class="flex-grow-1">
 
     <div class="container">
 
-        <!-- ================= PENDING SECTION ================= -->
+        <!-- PENDING SECTION -->
 
         <h3 class="section-title text-danger text-center">
             Pending Conference Approvals
@@ -200,9 +255,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
                             <input type="hidden" name="id" value="${conf.id}">
 
-                            <button type="submit" class="btn btn-success w-100">
+                            <button class="btn btn-success w-100">
 
-                                <i class="fas fa-check-circle"></i>
                                 Approve Conference
 
                             </button>
@@ -218,7 +272,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         </div>
 
 
-        <!-- ================= APPROVED SECTION ================= -->
+        <!-- APPROVED SECTION -->
 
         <h3 class="section-title text-success text-center">
             Approved Conferences
@@ -248,9 +302,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
                             <input type="hidden" name="id" value="${conf.id}">
 
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button class="btn btn-primary w-100">
 
-                                <i class="fas fa-paper-plane"></i>
                                 Send To Delegates
 
                             </button>
@@ -266,6 +319,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         </div>
 
     </div>
+
 
     <section class="container mt-5">
 
@@ -294,9 +348,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                     <tr>
 
                         <td>${conf.id}</td>
-
                         <td>${conf.conferenceTopic}</td>
-
                         <td>${conf.date}</td>
 
                         <td>
@@ -321,13 +373,14 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
                         <td>
 
-                            <form action="${pageContext.request.contextPath}/participantsAdmin" method="get" class="w-50">
+                            <form action="${pageContext.request.contextPath}/participantsAdmin"
+                                  method="get">
 
                                 <input type="hidden"
                                        name="conferenceId"
                                        value="${conf.id}">
 
-                                <button  class="btn btn-sm btn-primary">
+                                <button class="btn btn-sm btn-primary">
                                     View Participants
                                 </button>
 
@@ -355,18 +408,17 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     </section>
 
-    <!-- ================= UI EDIT START ================= -->
 </main>
-<!-- ================= UI EDIT END ================= -->
 
-<footer class="text-center">
+
+<footer>
 
     © 2026 CRDMS Admin Dashboard | Secure Management Portal
 
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
