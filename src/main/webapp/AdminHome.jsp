@@ -180,40 +180,33 @@ CRDMS Admin
 
         <div class="d-flex flex-column p-3 gap-3">
 
-            <a href="admin/dashboard"
+            <a href="${pageContext.request.contextPath}/admin/dashboard?filter=all"
                class="btn btn-outline-secondary rounded-pill fw-semibold">
 
                 All Conferences
 
             </a>
 
-            <a href="admin/dashboard"
+            <a href="${pageContext.request.contextPath}/admin/dashboard?filter=pending"
                class="btn btn-outline-danger rounded-pill fw-semibold">
 
                 Pending Conferences
 
             </a>
 
-            <a href="admin/dashboard"
+            <a href="${pageContext.request.contextPath}/admin/dashboard?filter=approved"
                class="btn btn-outline-success rounded-pill fw-semibold">
 
                 Approved Conferences
 
             </a>
 
-            <a href="admin/dashboard"
+            <a href="${pageContext.request.contextPath}/admin/dashboard?filter=sent"
                class="btn btn-outline-secondary rounded-pill fw-semibold">
 
                 Sent Conferences
 
             </a>
-            <a href="admin/dashboard"
-               class="btn btn-outline-primary rounded-pill fw-semibold">
-
-                View Responses
-
-            </a>
-
         </div>
 
     </div>
@@ -227,13 +220,14 @@ CRDMS Admin
 
         <!-- PENDING SECTION -->
 
-        <h3 class="section-title text-danger text-center">
-            Pending Conference Approvals
-        </h3>
+        <c:if test="${showPending}">
 
-        <div class="row">
+            <h3 class="section-title text-danger text-center">
+                Pending Conference Approvals
+            </h3>
 
-            <c:forEach var="conf" items="${pendingList}">
+            <div class="row">
+                <c:forEach var="conf" items="${conferenceList}">
 
                 <div class="col-md-4 mb-4">
 
@@ -267,20 +261,21 @@ CRDMS Admin
 
                 </div>
 
-            </c:forEach>
+                </c:forEach>
+            </div>
+            </c:if>
 
         </div>
 
 
         <!-- APPROVED SECTION -->
-
+                <c:if test="${showApproved}">
         <h3 class="section-title text-success text-center">
             Approved Conferences
         </h3>
 
         <div class="row">
-
-            <c:forEach var="conf" items="${approvedList}">
+                <c:forEach var="conf" items="${conferenceList}">
 
                 <div class="col-md-4 mb-4">
 
@@ -314,99 +309,132 @@ CRDMS Admin
 
                 </div>
 
+                </c:forEach>
+        </div>
+            </c:if>
+
+
+
+    </div>
+
+    <c:if test="${showSent}">
+
+        <section class="container mt-5">
+
+            <div class="table-section">
+
+                <h4 class="mb-3">Sent To Delegates Conferences</h4>
+
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Conference</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <c:forEach var="conf" items="${conferenceList}">
+
+                        <tr>
+
+                            <td>${conf.id}</td>
+                            <td>${conf.conferenceTopic}</td>
+                            <td>${conf.date}</td>
+
+                            <td>
+                                <c:choose>
+
+                                    <c:when test="${conf.emailSent}">
+                                        <span class="badge bg-success">Sent</span>
+                                    </c:when>
+
+                                    <c:when test="${conf.active}">
+                                        <span class="badge bg-primary">Approved</span>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <span class="badge bg-warning">Pending</span>
+                                    </c:otherwise>
+
+                                </c:choose>
+                            </td>
+
+                            <td>
+
+                                <form action="${pageContext.request.contextPath}/participantsAdmin"
+                                      method="get">
+
+                                    <input type="hidden"
+                                           name="conferenceId"
+                                           value="${conf.id}">
+
+                                    <button class="btn btn-sm btn-primary">
+                                        View Participants
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    </c:forEach>
+
+                    <c:if test="${empty conferenceList}">
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                No Conferences Sent To Delegates Yet
+                            </td>
+                        </tr>
+                    </c:if>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </c:if>
+
+    <c:if test="${showAll}">
+
+        <h3 class="section-title text-center">
+            All Conferences
+        </h3>
+
+        <div class="row">
+
+            <c:forEach var="conf" items="${conferenceList}">
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="conf-card">
+
+                        <h5>${conf.conferenceTopic}</h5>
+
+                        <p><strong>Host:</strong> ${conf.hostName}</p>
+                        <p><strong>Email:</strong> ${conf.email}</p>
+                        <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                        <p><strong>Date:</strong> ${conf.date}</p>
+                        <p><strong>Time:</strong> ${conf.time}</p>
+
+                    </div>
+
+                </div>
+
             </c:forEach>
 
         </div>
 
-    </div>
-
-
-    <section class="container mt-5">
-
-        <div class="table-section" data-aos="fade-up">
-
-            <h4 class="mb-3">Sent To Delegates Conferences</h4>
-
-            <table class="table table-hover">
-
-                <thead>
-
-                <tr>
-                    <th>ID</th>
-                    <th>Conference</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <c:forEach var="conf" items="${sentList}">
-
-                    <tr>
-
-                        <td>${conf.id}</td>
-                        <td>${conf.conferenceTopic}</td>
-                        <td>${conf.date}</td>
-
-                        <td>
-
-                            <c:choose>
-
-                                <c:when test="${conf.emailSent}">
-                                    <span class="badge bg-success">Sent</span>
-                                </c:when>
-
-                                <c:when test="${conf.active}">
-                                    <span class="badge bg-primary">Approved</span>
-                                </c:when>
-
-                                <c:otherwise>
-                                    <span class="badge bg-warning">Pending</span>
-                                </c:otherwise>
-
-                            </c:choose>
-
-                        </td>
-
-                        <td>
-
-                            <form action="${pageContext.request.contextPath}/participantsAdmin"
-                                  method="get">
-
-                                <input type="hidden"
-                                       name="conferenceId"
-                                       value="${conf.id}">
-
-                                <button class="btn btn-sm btn-primary">
-                                    View Participants
-                                </button>
-
-                            </form>
-
-                        </td>
-
-                    </tr>
-
-                </c:forEach>
-
-                <c:if test="${empty sentList}">
-                    <tr>
-                        <td colspan="5" class="text-center text-muted">
-                            No Conferences Sent To Delegates Yet
-                        </td>
-                    </tr>
-                </c:if>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
+    </c:if>
 
 </main>
 

@@ -19,6 +19,5 @@ public interface ConferenceService {
     List<ConferenceDTO> getSentConferences();
 
 
-
-
+    List<ConferenceDTO> getAllConferences();
 }

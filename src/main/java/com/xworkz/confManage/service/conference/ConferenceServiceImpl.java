@@ -225,7 +225,22 @@ public class ConferenceServiceImpl implements ConferenceService {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<ConferenceDTO> getAllConferences() {
+        List<ConferenceDTO> conferenceDTOS = new ArrayList<>();
+        List<ConferenceEntity> list = conferenceDAO.getAllConferences();
+        for (ConferenceEntity entity : list) {
 
+            ConferenceDTO dto = new ConferenceDTO();
+
+            BeanUtils.copyProperties(entity, dto);
+
+            conferenceDTOS.add(dto);
+        }
+        return conferenceDTOS;
+    }
+
+//------- password generator
     public String generatePassword(String email) {
 
         String name = email.split("@")[0];

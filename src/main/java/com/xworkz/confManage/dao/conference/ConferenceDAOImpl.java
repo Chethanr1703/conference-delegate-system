@@ -108,4 +108,15 @@ public class ConferenceDAOImpl implements ConferenceDAO{
         return Collections.emptyList();
     }
 
+    @Override
+    public List<ConferenceEntity> getAllConferences() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query= entityManager.createQuery("from ConferenceEntity ref");
+        List<ConferenceEntity> list =query.getResultList();
+        if(list!=null){
+            return list;
+        }
+        return Collections.emptyList();
+    }
+
 }

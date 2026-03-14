@@ -80,57 +80,48 @@ public class ConferenceController {
 
 
     @GetMapping("/admin/dashboard")
-    public String loadDashboard(Model model) {
+    public String loadDashboard(
+            @RequestParam(required = false) String filter,
+            Model model) {
 
-        model.addAttribute("pendingList",
-                conferenceService.getUnApprovedConferences());
+        // Default  show all conferences
+        if (filter == null || filter.equals("all")) {
 
-        model.addAttribute("approvedList",
-                conferenceService.getApprovedConferences());
+            model.addAttribute("conferenceList",
+                    conferenceService.getAllConferences());
 
-        model.addAttribute("sentList",
-                conferenceService.getSentConferences());
+            model.addAttribute("showAll", true);
+        }
 
-        return "AdminHome";   // JSP page name
+        // Pending Conferences
+        else if (filter.equals("pending")) {
+
+            model.addAttribute("conferenceList",
+                    conferenceService.getUnApprovedConferences());
+
+            model.addAttribute("showPending", true);
+        }
+
+        // Approved Conferences
+        else if (filter.equals("approved")) {
+
+            model.addAttribute("conferenceList",
+                    conferenceService.getApprovedConferences());
+
+            model.addAttribute("showApproved", true);
+        }
+
+        // Sent Conferences
+        else if (filter.equals("sent")) {
+
+            model.addAttribute("conferenceList",
+                    conferenceService.getSentConferences());
+
+            model.addAttribute("showSent", true);
+        }
+
+        return "AdminHome";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @PostMapping("/admin/approve")
     public String approveConference(@RequestParam int id) {

@@ -24,4 +24,6 @@ public interface ConferenceDAO {
     boolean update(ConferenceEntity conf);
 
     List<ConferenceEntity> getSentConferences();
+
+    List<ConferenceEntity> getAllConferences();
 }
