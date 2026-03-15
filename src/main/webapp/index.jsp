@@ -168,7 +168,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     /* Footer */
 
-    footer{ 
+    footer{
         background:#1c1c1c;
         color:white;
         padding:10px 0;
