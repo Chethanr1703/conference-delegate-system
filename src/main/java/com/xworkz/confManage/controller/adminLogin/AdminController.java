@@ -33,7 +33,7 @@ public class AdminController {
                 return "redirect:/admin/dashboard";
             } else {
                 model.addAttribute("errorMsg1", "Invalid email or password");
-                return "index";
+                return "AdminLoginPage";
             }
 
         } catch (UserNotFoundException e) {

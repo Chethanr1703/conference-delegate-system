@@ -81,11 +81,10 @@ public class ConferenceController {
 
     @GetMapping("/admin/dashboard")
     public String loadDashboard(
-            @RequestParam(required = false) String filter,
+            @RequestParam(required = false, defaultValue = "all") String filter,
             Model model) {
 
-        // Default  show all conferences
-        if (filter == null || filter.equals("all")) {
+        if (filter.equals("all")) {
 
             model.addAttribute("conferenceList",
                     conferenceService.getAllConferences());
@@ -93,7 +92,6 @@ public class ConferenceController {
             model.addAttribute("showAll", true);
         }
 
-        // Pending Conferences
         else if (filter.equals("pending")) {
 
             model.addAttribute("conferenceList",
@@ -102,7 +100,6 @@ public class ConferenceController {
             model.addAttribute("showPending", true);
         }
 
-        // Approved Conferences
         else if (filter.equals("approved")) {
 
             model.addAttribute("conferenceList",
@@ -111,7 +108,6 @@ public class ConferenceController {
             model.addAttribute("showApproved", true);
         }
 
-        // Sent Conferences
         else if (filter.equals("sent")) {
 
             model.addAttribute("conferenceList",
