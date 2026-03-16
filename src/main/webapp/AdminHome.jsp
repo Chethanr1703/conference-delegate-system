@@ -146,7 +146,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 CRDMS Admin
 </span>
 
-        <a href="index.jsp" class="btn btn-warning btn-sm">
+        <a href="${pageContext.request.contextPath}/index.jsp"
+           class="btn btn-warning btn-sm">
             Logout
         </a>
 
