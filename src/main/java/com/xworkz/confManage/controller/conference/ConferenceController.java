@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -82,9 +83,14 @@ public class ConferenceController {
     @GetMapping("/admin/dashboard")
     public String loadDashboard(
             @RequestParam(required = false, defaultValue = "all") String filter,
-            Model model) {
+            Model model, HttpSession session) {
+
+
 
         if (filter.equals("all")) {
+            if (session == null || session.getAttribute("admin") == null) {
+                return "redirect:/adminLogin";
+            }
 
             model.addAttribute("conferenceList",
                     conferenceService.getAllConferences());
@@ -93,6 +99,9 @@ public class ConferenceController {
         }
 
         else if (filter.equals("pending")) {
+            if (session == null || session.getAttribute("admin") == null) {
+                return "redirect:/adminLogin";
+            }
 
             model.addAttribute("conferenceList",
                     conferenceService.getUnApprovedConferences());
@@ -101,6 +110,9 @@ public class ConferenceController {
         }
 
         else if (filter.equals("approved")) {
+            if (session == null || session.getAttribute("admin") == null) {
+                return "redirect:/adminLogin";
+            }
 
             model.addAttribute("conferenceList",
                     conferenceService.getApprovedConferences());
@@ -109,6 +121,9 @@ public class ConferenceController {
         }
 
         else if (filter.equals("sent")) {
+            if (session == null || session.getAttribute("admin") == null) {
+                return "redirect:/adminLogin";
+            }
 
             model.addAttribute("conferenceList",
                     conferenceService.getSentConferences());
@@ -120,7 +135,10 @@ public class ConferenceController {
     }
 
     @PostMapping("/admin/approve")
-    public String approveConference(@RequestParam int id) {
+    public String approveConference(@RequestParam int id,HttpSession session) {
+        if (session == null || session.getAttribute("admin") == null) {
+            return "redirect:/adminLogin";
+        }
         boolean isApproved = conferenceService.approveConference(id);
         System.out.println(isApproved);
 
@@ -129,7 +147,11 @@ public class ConferenceController {
 
 
     @PostMapping("/admin/sendToDelegates")
-    public String sendToDelegates(@RequestParam int id, Model model) {
+    public String sendToDelegates(@RequestParam int id, Model model,HttpSession  session) {
+
+        if (session == null || session.getAttribute("admin") == null) {
+            return "redirect:/adminLogin";
+        }
 
         boolean sent = conferenceService.sendToTPO(id);
 
