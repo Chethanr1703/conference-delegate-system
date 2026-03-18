@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -318,6 +319,22 @@ public class DelegatesController {
         mv.setViewName("individualParticipantsInvitee");
 
         return mv;
+    }
+
+    // log out
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+
+
+        HttpSession session1 = request.getSession(false); // get existing session
+
+        if (session1 != null) {
+            System.out.println("Session ID before logout: " + session1.getId());
+
+            session1.invalidate();  // 🔥 destroy session completely
+        }
+
+        return "redirect:/delegateLogin";
     }
 }
 

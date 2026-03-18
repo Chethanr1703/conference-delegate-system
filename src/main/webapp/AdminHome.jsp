@@ -31,6 +31,22 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         overflow-x:hidden;
         }
 
+        /* subtle background */
+
+        body::before{
+        content:"";
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-image:
+        radial-gradient(circle at 20% 30%, rgba(44,83,100,0.08) 2px, transparent 2px),
+        radial-gradient(circle at 80% 70%, rgba(44,83,100,0.08) 2px, transparent 2px);
+        background-size:140px 140px;
+        z-index:-1;
+        }
+
         /* NAVBAR */
 
         .navbar{
@@ -38,7 +54,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         box-shadow:0 4px 12px rgba(0,0,0,0.25);
         }
 
-        /* Hamburger Menu */
+        /* MENU BUTTON */
 
         .menu-btn{
         font-size:22px;
@@ -52,55 +68,92 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         transform:scale(1.15);
         }
 
-        /* Sidebar */
+        /* SIDEBAR */
 
         .offcanvas-body{
         background:#f4f7fb;
-        }
-
-        .offcanvas-body a{
-        transition:0.25s;
         }
 
         .offcanvas-body a:hover{
         transform:translateX(5px);
         }
 
-        /* SECTION TITLES */
+        /* SECTION TITLE */
 
         .section-title{
         margin:60px 0 30px;
         font-weight:700;
-        letter-spacing:0.5px;
-        color:#1f2d3d;
+        text-align:center;
         }
 
-        /* CONFERENCE CARDS */
+        /* UNIFORM CARD FIX */
+
+        .row{
+        align-items:stretch;
+        }
 
         .conf-card{
         background:white;
         border-radius:18px;
         padding:25px;
+
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
+
+        height:100%;
+        min-height:260px;
+
         box-shadow:0 10px 25px rgba(0,0,0,0.12);
-        transition:all 0.3s ease;
+        transition:all 0.35s ease;
+
         border-left:5px solid #2c5364;
+
+        position:relative;
+        overflow:hidden;
         }
 
-        .conf-card:hover{
-        transform:translateY(-6px);
-        box-shadow:0 16px 35px rgba(0,0,0,0.18);
+        /* TOP GLOW LINE */
+
+        .conf-card::before{
+        content:"";
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:4px;
+        background:linear-gradient(90deg,#0f2027,#2c5364,#00c853);
+        opacity:0;
+        transition:0.3s;
         }
+
+        .conf-card:hover::before{
+        opacity:1;
+        }
+
+        /* HOVER EFFECT */
+
+        .conf-card:hover{
+        transform:translateY(-8px) scale(1.02);
+        box-shadow:0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* TEXT */
 
         .conf-card h5{
         font-weight:600;
-        margin-bottom:12px;
         color:#2c5364;
         }
 
         .conf-card p{
-        margin-bottom:6px;
-        color:#555;
         font-size:14px;
+        color:#555;
+        }
+
+        /* BUTTON ALIGNMENT */
+
+        .conf-card form{
+        margin-top:auto;
         }
 
         /* TABLE */
@@ -146,7 +199,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 CRDMS Admin
 </span>
 
-        <a href="${pageContext.request.contextPath}/index.jsp"
+        <a href="${pageContext.request.contextPath}/logoutAdmin"
            class="btn btn-warning btn-sm">
             Logout
         </a>
@@ -155,8 +208,7 @@ CRDMS Admin
 
 </nav>
 
-
-<!-- ADMIN SIDEBAR -->
+<!-- SIDEBAR -->
 
 <div class="offcanvas offcanvas-start shadow"
      tabindex="-1"
@@ -183,143 +235,115 @@ CRDMS Admin
 
             <a href="${pageContext.request.contextPath}/admin/dashboard?filter=all"
                class="btn btn-outline-secondary rounded-pill fw-semibold">
-
                 All Conferences
-
             </a>
 
             <a href="${pageContext.request.contextPath}/admin/dashboard?filter=pending"
                class="btn btn-outline-danger rounded-pill fw-semibold">
-
                 Pending Conferences
-
             </a>
 
             <a href="${pageContext.request.contextPath}/admin/dashboard?filter=approved"
                class="btn btn-outline-success rounded-pill fw-semibold">
-
                 Approved Conferences
-
             </a>
 
             <a href="${pageContext.request.contextPath}/admin/dashboard?filter=sent"
                class="btn btn-outline-secondary rounded-pill fw-semibold">
-
                 Sent Conferences
-
             </a>
+
         </div>
 
     </div>
 
 </div>
 
+<!-- MAIN -->
 
 <main class="flex-grow-1">
 
     <div class="container">
 
-        <!-- PENDING SECTION -->
+        <!-- PENDING -->
 
         <c:if test="${showPending}">
-
-            <h3 class="section-title text-danger text-center">
-                Pending Conference Approvals
-            </h3>
+            <h3 class="section-title text-danger">Pending Conference Approvals</h3>
 
             <div class="row">
                 <c:forEach var="conf" items="${conferenceList}">
+                    <div class="col-md-4 mb-4" data-aos="fade-up">
 
-                <div class="col-md-4 mb-4">
+                        <div class="conf-card">
 
-                    <div class="conf-card">
+                            <h5>${conf.conferenceTopic}</h5>
 
-                        <h5>${conf.conferenceTopic}</h5>
+                            <p><strong>Host:</strong> ${conf.hostName}</p>
+                            <p><strong>Email:</strong> ${conf.email}</p>
+                            <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                            <p><strong>Date:</strong> ${conf.date}</p>
+                            <p><strong>Time:</strong> ${conf.time}</p>
 
-                        <p><strong>Host:</strong> ${conf.hostName}</p>
+                            <form action="${pageContext.request.contextPath}/admin/approve" method="post">
 
-                        <p><strong>Email:</strong> ${conf.email}</p>
+                                <input type="hidden" name="id" value="${conf.id}">
 
-                        <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                                <button class="btn btn-success w-100">
+                                    <i class="fas fa-check-circle me-1"></i>
+                                    Approve Conference
+                                </button>
 
-                        <p><strong>Date:</strong> ${conf.date}</p>
+                            </form>
 
-                        <p><strong>Time:</strong> ${conf.time}</p>
-
-                        <form action="${pageContext.request.contextPath}/admin/approve" method="post">
-
-                            <input type="hidden" name="id" value="${conf.id}">
-
-                            <button class="btn btn-success w-100">
-
-                                Approve Conference
-
-                            </button>
-
-                        </form>
+                        </div>
 
                     </div>
-
-                </div>
-
                 </c:forEach>
             </div>
-            </c:if>
+        </c:if>
 
-        </div>
+        <!-- APPROVED -->
 
+        <c:if test="${showApproved}">
+            <h3 class="section-title text-success">Approved Conferences</h3>
 
-        <!-- APPROVED SECTION -->
-                <c:if test="${showApproved}">
-        <h3 class="section-title text-success text-center">
-            Approved Conferences
-        </h3>
-
-        <div class="row">
+            <div class="row">
                 <c:forEach var="conf" items="${conferenceList}">
+                    <div class="col-md-4 mb-4" data-aos="fade-up">
 
-                <div class="col-md-4 mb-4">
+                        <div class="conf-card">
 
-                    <div class="conf-card">
+                            <h5>${conf.conferenceTopic}</h5>
 
-                        <h5>${conf.conferenceTopic}</h5>
+                            <p><strong>Host:</strong> ${conf.hostName}</p>
+                            <p><strong>Email:</strong> ${conf.email}</p>
+                            <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                            <p><strong>Date:</strong> ${conf.date}</p>
+                            <p><strong>Time:</strong> ${conf.time}</p>
 
-                        <p><strong>Host:</strong> ${conf.hostName}</p>
+                            <form action="${pageContext.request.contextPath}/admin/sendToDelegates" method="post">
 
-                        <p><strong>Email:</strong> ${conf.email}</p>
+                                <input type="hidden" name="id" value="${conf.id}">
 
-                        <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                                <button class="btn btn-primary w-100">
+                                    <i class="fas fa-paper-plane me-1"></i>
+                                    Send To Delegates
+                                </button>
 
-                        <p><strong>Date:</strong> ${conf.date}</p>
+                            </form>
 
-                        <p><strong>Time:</strong> ${conf.time}</p>
-
-                        <form action="${pageContext.request.contextPath}/admin/sendToDelegates" method="post">
-
-                            <input type="hidden" name="id" value="${conf.id}">
-
-                            <button class="btn btn-primary w-100">
-
-                                Send To Delegates
-
-                            </button>
-
-                        </form>
+                        </div>
 
                     </div>
-
-                </div>
-
                 </c:forEach>
-        </div>
-            </c:if>
-
-
+            </div>
+        </c:if>
 
     </div>
 
-    <c:if test="${showSent}">
+    <!-- SENT -->
 
+    <c:if test="${showSent}">
         <section class="container mt-5">
 
             <div class="table-section">
@@ -341,7 +365,6 @@ CRDMS Admin
                     <tbody>
 
                     <c:forEach var="conf" items="${conferenceList}">
-
                         <tr>
 
                             <td>${conf.id}</td>
@@ -350,50 +373,27 @@ CRDMS Admin
 
                             <td>
                                 <c:choose>
-
                                     <c:when test="${conf.emailSent}">
                                         <span class="badge bg-success">Sent</span>
                                     </c:when>
-
                                     <c:when test="${conf.active}">
                                         <span class="badge bg-primary">Approved</span>
                                     </c:when>
-
                                     <c:otherwise>
                                         <span class="badge bg-warning">Pending</span>
                                     </c:otherwise>
-
                                 </c:choose>
                             </td>
 
                             <td>
-
-                                <form action="${pageContext.request.contextPath}/participantsAdmin"
-                                      method="get">
-
-                                    <input type="hidden"
-                                           name="conferenceId"
-                                           value="${conf.id}">
-
-                                    <button class="btn btn-sm btn-primary">
-                                        View Participants
-                                    </button>
-
+                                <form action="${pageContext.request.contextPath}/participantsAdmin" method="get">
+                                    <input type="hidden" name="conferenceId" value="${conf.id}">
+                                    <button class="btn btn-sm btn-primary">View Participants</button>
                                 </form>
-
                             </td>
 
                         </tr>
-
                     </c:forEach>
-
-                    <c:if test="${empty conferenceList}">
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">
-                                No Conferences Sent To Delegates Yet
-                            </td>
-                        </tr>
-                    </c:if>
 
                     </tbody>
 
@@ -402,50 +402,55 @@ CRDMS Admin
             </div>
 
         </section>
-
     </c:if>
 
     <c:if test="${showAll}">
 
-        <h3 class="section-title text-center">
-            All Conferences
-        </h3>
+        <section class="container mt-5">
 
-        <div class="row">
+            <h3 class="section-title text-center">
+                All Conferences
+            </h3>
 
-            <c:forEach var="conf" items="${conferenceList}">
+            <div class="row">
 
-                <div class="col-md-4 mb-4">
+                <c:forEach var="conf" items="${conferenceList}">
 
-                    <div class="conf-card">
+                    <div class="col-md-4 mb-4" data-aos="fade-up">
 
-                        <h5>${conf.conferenceTopic}</h5>
+                        <div class="conf-card">
 
-                        <p><strong>Host:</strong> ${conf.hostName}</p>
-                        <p><strong>Email:</strong> ${conf.email}</p>
-                        <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
-                        <p><strong>Date:</strong> ${conf.date}</p>
-                        <p><strong>Time:</strong> ${conf.time}</p>
+                            <h5>${conf.conferenceTopic}</h5>
+
+                            <p><strong>Host:</strong> ${conf.hostName}</p>
+                            <p><strong>Email:</strong> ${conf.email}</p>
+                            <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
+                            <p><strong>Date:</strong> ${conf.date}</p>
+                            <p><strong>Time:</strong> ${conf.time}</p>
+
+                        </div>
 
                     </div>
 
-                </div>
+                </c:forEach>
 
-            </c:forEach>
+                <c:if test="${empty conferenceList}">
+                    <div class="text-center text-muted">
+                        No Conferences Available
+                    </div>
+                </c:if>
 
-        </div>
+            </div>
+
+        </section>
 
     </c:if>
 
 </main>
 
-
 <footer>
-
     © 2026 CRDMS Admin Dashboard | Secure Management Portal
-
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
