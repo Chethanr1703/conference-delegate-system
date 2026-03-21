@@ -80,7 +80,7 @@ public class AdminController {
         if (session1 != null) {
             System.out.println("Session ID before logout: " + session1.getId());
 
-            session1.invalidate();  // 🔥 destroy session completely
+            session1.invalidate();  //  destroy session completely
         }
 
         return "redirect:/adminLogin";

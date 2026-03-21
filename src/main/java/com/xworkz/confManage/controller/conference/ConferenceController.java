@@ -161,14 +161,15 @@ public class ConferenceController {
     }
 
 //    @GetMapping({"http://localhost:8080/conference/", "conference/"})
-//    public String loadHome(Model model) {
+//    public ModelAndView loadHome(ModelAndView modelAndView) {
 //        System.out.println("hi");
 //        System.out.println(conferenceService.getSentConferences());
 //        List<ConferenceDTO> upcoming =
 //                conferenceService.getSentConferences();
 //
-//        model.addAttribute("upcomingList", upcoming);
+//       modelAndView.addObject ("upcomingList", upcoming);
+//       modelAndView.setViewName("index");
 //
-//        return "index";
+//        return modelAndView;
 //    }
 }
