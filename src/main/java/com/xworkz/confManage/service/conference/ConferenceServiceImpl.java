@@ -34,65 +34,153 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Autowired
     DelegateDashboardDAO delegateDashboard;
 
-//    @Override
-//    public boolean saveConference(ConferenceDTO conferenceDTO) {
-//        boolean isValid = true;
-//
-//        // ===== VALIDATIONS =====
-//
-//        if (conferenceDTO == null) {
-//            isValid = false;
-//        }
-//
-//        if (conferenceDTO.getHostName() == null ||
-//                conferenceDTO.getHostName().trim().isEmpty()) {
-//            isValid = false;
-//        }
-//
-//        if (conferenceDTO.getEmail() == null ||
-//                !conferenceDTO.getEmail().contains("@")) {
-//            isValid = false;
-//        }
-//
-//        if (conferenceDTO.getConferenceTopic() == null ||
-//                conferenceDTO.getConferenceTopic().trim().length() < 5) {
-//            isValid = false;
-//        }
-//
-//        if (conferenceDTO.getTargetedAudience() == null ||
-//                conferenceDTO.getTargetedAudience().trim().isEmpty()) {
-//            isValid = false;
-//        }
-//
-//        // Date must not be past
-//        if (conferenceDTO.getDate() == null ||
-//                conferenceDTO.getDate().isBefore(LocalDate.now())) {
-//            isValid = false;
-//        }
-//
-//        if (conferenceDTO.getTime() == null) {
-//            isValid = false;
-//        }
-//        if (isValid) {
-//            boolean isAvailable = conferenceDAO.checkEmailAndConference(conferenceDTO.getEmail(), conferenceDTO.getConferenceTopic());
-//            if (isAvailable==false) {
-//                return false;
-//            } else {
-//                ConferenceEntity entity = new ConferenceEntity();
-//                BeanUtils.copyProperties(conferenceDTO, entity);
-//                entity.setActive(false);
-//
-//                boolean isSaved = conferenceDAO.save(entity);
-//                if (isSaved) {
-//                    return isSaved;
-//                } else {
-//                    isSaved=false;
-//                    return isSaved;
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean saveConference(ConferenceDTO dto,
+                                  MultipartFile poster,
+                                  MultipartFile delegateFile) {
+
+        boolean isValid = true;
+
+        // ========= BASIC VALIDATIONS =========
+
+        if (dto == null) {
+            isValid = false;
+        }
+
+        if (dto.getHostName() == null ||
+                dto.getHostName().trim().isEmpty()) {
+            isValid = false;
+        }
+
+        if (dto.getEmail() == null ||
+                !dto.getEmail().contains("@")) {
+            isValid = false;
+        }
+
+        if (dto.getConferenceTopic() == null ||
+                dto.getConferenceTopic().trim().length() < 5) {
+            isValid = false;
+        }
+
+        if (dto.getTargetedAudience() == null ||
+                dto.getTargetedAudience().trim().isEmpty()) {
+            isValid = false;
+        }
+
+        if (dto.getDate() == null ||
+                dto.getDate().isBefore(LocalDate.now())) {
+            isValid = false;
+        }
+
+        if (dto.getTime() == null) {
+            isValid = false;
+        }
+
+        // ========= DELEGATE VALIDATION =========
+
+        boolean hasSingleEmail =
+                dto.getDelegatesEmail() != null &&
+                        !dto.getDelegatesEmail().trim().isEmpty();
+
+        boolean hasExcel =
+                delegateFile != null &&
+                        !delegateFile.isEmpty();
+
+        //  both filled → invalid
+        if (hasSingleEmail && hasExcel) {
+            isValid = false;
+        }
+
+        //  none filled → invalid
+        if (!hasSingleEmail && !hasExcel) {
+            isValid = false;
+        }
+
+        // ========= PROCESS =========
+
+        if (isValid) {
+
+            boolean isAvailable = conferenceDAO
+                    .checkEmailAndConference(dto.getEmail(), dto.getConferenceTopic());
+
+            if (!isAvailable) {
+                return false;
+            }
+
+            try {
+
+                ConferenceEntity entity = new ConferenceEntity();
+
+                BeanUtils.copyProperties(dto, entity);
+
+                // ========= IMAGE SAVE =========
+                if (poster != null && !poster.isEmpty()) {
+                    entity.setPoster(poster.getBytes());
+                }
+
+                // ========= EMAIL PROCESS =========
+                String finalEmails = dto.getDelegatesEmail();
+
+                if (hasExcel) {
+
+                    List<String> excelEmails = readEmailsFromExcel(delegateFile);
+
+                    if (!excelEmails.isEmpty()) {
+                        finalEmails = String.join(",", excelEmails);
+                    }
+                }
+
+                entity.setDelegatesEmail(finalEmails);
+
+                entity.setActive(false);
+                entity.setEmailSent(false);
+
+                boolean isSaved = conferenceDAO.save(entity);
+
+                return isSaved;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private List<String> readEmailsFromExcel(MultipartFile file) {
+
+        List<String> emails = new ArrayList<>();
+
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (Row row : sheet) {
+
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                Cell cell = row.getCell(0); // first column
+
+                if (cell != null) {
+
+                    String email = cell.getStringCellValue();
+
+                    if (email != null && !email.trim().isEmpty()) {
+                        emails.add(email.trim());
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return emails;
+    }
+
 
     @Override
     public List<ConferenceDTO> getUnApprovedConferences() {
@@ -295,152 +383,6 @@ public class ConferenceServiceImpl implements ConferenceService {
         return conferenceDTOS;
     }
 
-    @Override
-    public boolean saveConference(ConferenceDTO dto,
-                                  MultipartFile poster,
-                                  MultipartFile delegateFile) {
-
-        boolean isValid = true;
-
-        // ========= BASIC VALIDATIONS =========
-
-        if (dto == null) {
-            isValid = false;
-        }
-
-        if (dto.getHostName() == null ||
-                dto.getHostName().trim().isEmpty()) {
-            isValid = false;
-        }
-
-        if (dto.getEmail() == null ||
-                !dto.getEmail().contains("@")) {
-            isValid = false;
-        }
-
-        if (dto.getConferenceTopic() == null ||
-                dto.getConferenceTopic().trim().length() < 5) {
-            isValid = false;
-        }
-
-        if (dto.getTargetedAudience() == null ||
-                dto.getTargetedAudience().trim().isEmpty()) {
-            isValid = false;
-        }
-
-        if (dto.getDate() == null ||
-                dto.getDate().isBefore(LocalDate.now())) {
-            isValid = false;
-        }
-
-        if (dto.getTime() == null) {
-            isValid = false;
-        }
-
-        // ========= DELEGATE VALIDATION =========
-
-        boolean hasSingleEmail =
-                dto.getDelegatesEmail() != null &&
-                        !dto.getDelegatesEmail().trim().isEmpty();
-
-        boolean hasExcel =
-                delegateFile != null &&
-                        !delegateFile.isEmpty();
-
-        //  both filled → invalid
-        if (hasSingleEmail && hasExcel) {
-            isValid = false;
-        }
-
-        //  none filled → invalid
-        if (!hasSingleEmail && !hasExcel) {
-            isValid = false;
-        }
-
-        // ========= PROCESS =========
-
-        if (isValid) {
-
-            boolean isAvailable = conferenceDAO
-                    .checkEmailAndConference(dto.getEmail(), dto.getConferenceTopic());
-
-            if (!isAvailable) {
-                return false;
-            }
-
-            try {
-
-                ConferenceEntity entity = new ConferenceEntity();
-
-                BeanUtils.copyProperties(dto, entity);
-
-                // ========= IMAGE SAVE =========
-                if (poster != null && !poster.isEmpty()) {
-                    entity.setPoster(poster.getBytes());
-                }
-
-                // ========= EMAIL PROCESS =========
-                String finalEmails = dto.getDelegatesEmail();
-
-                if (hasExcel) {
-
-                    List<String> excelEmails = readEmailsFromExcel(delegateFile);
-
-                    if (!excelEmails.isEmpty()) {
-                        finalEmails = String.join(",", excelEmails);
-                    }
-                }
-
-                entity.setDelegatesEmail(finalEmails);
-
-                entity.setActive(false);
-                entity.setEmailSent(false);
-
-                boolean isSaved = conferenceDAO.save(entity);
-
-                return isSaved;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private List<String> readEmailsFromExcel(MultipartFile file) {
-
-        List<String> emails = new ArrayList<>();
-
-        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
-
-            Sheet sheet = workbook.getSheetAt(0);
-
-            for (Row row : sheet) {
-
-                if (row.getRowNum() == 0) {
-                    continue;
-                }
-
-                Cell cell = row.getCell(0); // first column
-
-                if (cell != null) {
-
-                    String email = cell.getStringCellValue();
-
-                    if (email != null && !email.trim().isEmpty()) {
-                        emails.add(email.trim());
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return emails;
-    }
 
     //------- password generator
     public String generatePassword(String email) {

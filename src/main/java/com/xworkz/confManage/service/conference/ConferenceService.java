@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 public interface ConferenceService {
-//    boolean saveConference(ConferenceDTO conferenceDTO);
+
 
     List<ConferenceDTO> getUnApprovedConferences();
 
