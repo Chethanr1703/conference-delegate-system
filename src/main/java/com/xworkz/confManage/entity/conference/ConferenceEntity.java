@@ -28,6 +28,10 @@ public class ConferenceEntity {
     private String delegateResponse;
     private boolean emailSentToParticipants;
 
+    @Lob
+    @Column(name = "poster")
+    private byte[] poster;
+
     @OneToMany(mappedBy="conference")
     private List<ParticipantsEntity> participants;
 }

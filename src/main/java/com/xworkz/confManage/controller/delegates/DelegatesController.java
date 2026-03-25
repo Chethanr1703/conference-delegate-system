@@ -167,12 +167,12 @@ public class DelegatesController {
 
         Row header = sheet.createRow(0);
 
-        header.createCell(0).setCellValue("slno");
-        header.createCell(1).setCellValue("name");
-        header.createCell(2).setCellValue("email");
-        header.createCell(3).setCellValue("mobile");
-        header.createCell(4).setCellValue("organization");
-        header.createCell(5).setCellValue("attending");
+//        header.createCell(0).setCellValue("slno");
+        header.createCell(0).setCellValue("name");
+        header.createCell(1).setCellValue("email");
+        header.createCell(2).setCellValue("mobile");
+        header.createCell(3).setCellValue("organization");
+        header.createCell(4).setCellValue("attending");
 
         response.setContentType("application/octet-stream");
 

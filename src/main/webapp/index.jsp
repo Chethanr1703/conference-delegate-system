@@ -173,6 +173,39 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         color:white;
         padding:10px 0;
     }
+   /* AUTO SLIDER */
+
+.auto-slider {
+    overflow: hidden;
+    position: relative;
+}
+
+.auto-slide-track {
+    display: flex;
+    width: max-content;
+    animation: scrollLeft 20s linear infinite;
+}
+
+.slide-card {
+    width: 300px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+/* pause on hover */
+.auto-slider:hover .auto-slide-track {
+    animation-play-state: paused;
+}
+
+/* smooth infinite scroll */
+@keyframes scrollLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
     </style>
 </head>
 
@@ -190,7 +223,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#works">Previous Conferences</a></li>
-                <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="RegisterConference.jsp">Register Conference</a></li>
                 <li class="nav-item"><a class="nav-link" href="AdminLoginPage.jsp">Admin</a></li>
                 <li class="nav-item"><a class="nav-link" href="delegateLogin.jsp">Delegate Login</a></li>
             </ul>
@@ -223,163 +256,179 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             Upcoming Conferences
         </h2>
 
-        <div class="row g-4">
+        <!-- SLIDER WRAPPER -->
 
-            <c:forEach var="conf" items="${upcomingList}">
-                <div class="col-md-4" data-aos="zoom-in">
-                    <div class="card p-4 text-center">
+        <div class="auto-slider">
 
-                        <h5>${conf.conferenceTopic}</h5>
+            <div class="auto-slide-track" id="upcomingTrack">
 
-                        <p>
-                            <strong>Date:</strong> ${conf.date}
-                        </p>
+                <c:forEach var="conf" items="${upcomingList}">
+                    <div class="slide-card">
+                        <div class="card p-4 text-center">
 
-                        <p>
-                            <strong>Time:</strong> ${conf.time}
-                        </p>
+                            <h5>${conf.conferenceTopic}</h5>
 
-                        <p>
-                            <strong>Audience:</strong> ${conf.targetedAudience}
-                        </p>
+                            <p><strong>Date:</strong> ${conf.date}</p>
+                            <p><strong>Time:</strong> ${conf.time}</p>
+                            <p><strong>Audience:</strong> ${conf.targetedAudience}</p>
 
-<!--                        <a href="/delegate/register?id=${conf.id}"-->
-<!--                           class="btn btn-main mt-2">-->
-<!--                            Register Now-->
-<!--                        </a>-->
-
+                        </div>
                     </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
 
-            <c:if test="${empty upcomingList}">
-                <div class="col-12 text-center">
-                    <div class="alert alert-info">
-                        No Upcoming Conferences Available
-                    </div>
-                </div>
-            </c:if>
+<!--                &lt;!&ndash; duplicate for smooth infinite scroll &ndash;&gt;-->
+<!--                <c:forEach var="conf" items="${upcomingList}">-->
+<!--                    <div class="slide-card">-->
+<!--                        <div class="card p-4 text-center">-->
+
+<!--                            <h5>${conf.conferenceTopic}</h5>-->
+
+<!--                            <p><strong>Date:</strong> ${conf.date}</p>-->
+<!--                            <p><strong>Time:</strong> ${conf.time}</p>-->
+<!--                            <p><strong>Audience:</strong> ${conf.targetedAudience}</p>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </c:forEach>-->
+
+            </div>
 
         </div>
+
+        <c:if test="${empty upcomingList}">
+            <div class="text-center mt-3">
+                <div class="alert alert-info">
+                    No Upcoming Conferences Available
+                </div>
+            </div>
+        </c:if>
+
     </div>
 </section>
-
 
 <!-- PREVIOUS CONFERENCES -->
 <section id="works" class="section">
     <div class="container">
-        <h2 class="text-center mb-5" data-aos="fade-down">Previous Conferences</h2>
+        <h2 class="text-center mb-5" data-aos="fade-down">
+            Previous Conferences
+        </h2>
 
-        <div class="row g-4">
-            <div class="col-md-4" data-aos="zoom-in">
-                <div class="card p-4 text-center">
-                    <h5>AI Summit 2025</h5>
-                    <p>Focused on Artificial Intelligence trends and innovations.</p>
+        <div class="auto-slider">
+
+            <div class="auto-slide-track" id="previousTrack">
+                <!-- ORIGINAL -->
+                <div class="slide-card">
+                    <div class="card p-4 text-center">
+                        <h5>AI Summit 2025</h5>
+                        <p>Focused on Artificial Intelligence trends and innovations.</p>
+                    </div>
                 </div>
+
+                <div class="slide-card">
+                    <div class="card p-4 text-center">
+                        <h5>Java Conference</h5>
+                        <p>Spring Boot, Microservices & Enterprise application deep dive.</p>
+                    </div>
+                </div>
+
+                <div class="slide-card">
+                    <div class="card p-4 text-center">
+                        <h5>Cloud Expo</h5>
+                        <p>Exploring AWS, Azure, DevOps & Cloud Infrastructure tools.</p>
+                    </div>
+                </div>
+
+
             </div>
 
-            <div class="col-md-4" data-aos="zoom-in">
-                <div class="card p-4 text-center">
-                    <h5>Java Conference</h5>
-                    <p>Spring Boot, Microservices & Enterprise application deep dive.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4" data-aos="zoom-in">
-                <div class="card p-4 text-center">
-                    <h5>Cloud Expo</h5>
-                    <p>Exploring AWS, Azure, DevOps & Cloud Infrastructure tools.</p>
-                </div>
-            </div>
         </div>
     </div>
 </section>
+<!--&lt;!&ndash; REGISTRATION &ndash;&gt;-->
+<!--<section id="register" class="section bg-light">-->
+<!--    <div class="container">-->
+<!--        <h2 class="text-center mb-5" data-aos="fade-up">New Conference Registration</h2>-->
 
-<!-- REGISTRATION -->
-<section id="register" class="section bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5" data-aos="fade-up">New Conference Registration</h2>
+<!--        <c:if test="${not empty successMsg}">-->
+<!--            <div class="alert alert-success text-center mt-3">-->
+<!--                ${successMsg}-->
+<!--            </div>-->
+<!--        </c:if>-->
 
-        <c:if test="${not empty successMsg}">
-            <div class="alert alert-success text-center mt-3">
-                ${successMsg}
-            </div>
-        </c:if>
+<!--        <c:if test="${not empty errorMsg}">-->
+<!--            <div class="alert alert-danger text-center mt-3">-->
+<!--                ${errorMsg}-->
+<!--            </div>-->
+<!--        </c:if>-->
 
-        <c:if test="${not empty errorMsg}">
-            <div class="alert alert-danger text-center mt-3">
-                ${errorMsg}
-            </div>
-        </c:if>
+<!--        <form class="row g-3" data-aos="fade-up" action="conferenceRegister" method="post">-->
 
-        <form class="row g-3" data-aos="fade-up" action="conferenceRegister" method="post">
+<!--            <div class="col-md-6">-->
+<!--                <input type="text" class="form-control"-->
+<!--                       placeholder="Host Name"-->
+<!--                       name="hostName"-->
+<!--                       value="${dto.hostName}">-->
+<!--                <div class="text-danger small">${hostNameError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="text" class="form-control"
-                       placeholder="Host Name"
-                       name="hostName"
-                       value="${dto.hostName}">
-                <div class="text-danger small">${hostNameError}</div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--                <input type="email" class="form-control"-->
+<!--                       placeholder="Host email"-->
+<!--                       name="email"-->
+<!--                       value="${dto.email}">-->
+<!--                <div class="text-danger small">${emailError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="email" class="form-control"
-                       placeholder="Host email"
-                       name="email"
-                       value="${dto.email}">
-                <div class="text-danger small">${emailError}</div>
-            </div>
+<!--            &lt;!&ndash; Delegates Email Field &ndash;&gt;-->
+<!--            <div class="col-md-6">-->
+<!--                <input type="text" class="form-control"-->
+<!--                       placeholder="Delegates Email"-->
+<!--                       name="delegatesEmail"-->
+<!--                       value="${dto.delegatesEmail}">-->
+<!--                <div class="text-danger small">${delegatesEmailError}</div>-->
+<!--            </div>-->
 
-            <!-- Delegates Email Field -->
-            <div class="col-md-6">
-                <input type="text" class="form-control"
-                       placeholder="Delegates Email"
-                       name="delegatesEmail"
-                       value="${dto.delegatesEmail}">
-                <div class="text-danger small">${delegatesEmailError}</div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--                <input type="text" class="form-control"-->
+<!--                       placeholder="Conference Topic"-->
+<!--                       name="conferenceTopic"-->
+<!--                       value="${dto.conferenceTopic}">-->
+<!--                <div class="text-danger small">${topicError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="text" class="form-control"
-                       placeholder="Conference Topic"
-                       name="conferenceTopic"
-                       value="${dto.conferenceTopic}">
-                <div class="text-danger small">${topicError}</div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--                <input type="text" class="form-control"-->
+<!--                       placeholder="Target Audience(Students , Employees )"-->
+<!--                       name="targetedAudience"-->
+<!--                       value="${dto.targetedAudience}">-->
+<!--                <div class="text-danger small">${audienceError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="text" class="form-control"
-                       placeholder="Target Audience(Students , Employees )"
-                       name="targetedAudience"
-                       value="${dto.targetedAudience}">
-                <div class="text-danger small">${audienceError}</div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--                <input type="date" class="form-control"-->
+<!--                       name="date"-->
+<!--                       value="${dto.date}">-->
+<!--                <div class="text-danger small">${dateError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="date" class="form-control"
-                       name="date"
-                       value="${dto.date}">
-                <div class="text-danger small">${dateError}</div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--                <input type="text" class="form-control"-->
+<!--                       name="time"-->
+<!--                       placeholder="hh:mm AM/PM"-->
+<!--                       pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)"-->
+<!--                       value="${dto.time}">-->
+<!--                <div class="text-danger small">${timeError}</div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-                <input type="text" class="form-control"
-                       name="time"
-                       placeholder="hh:mm AM/PM"
-                       pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)"
-                       value="${dto.time}">
-                <div class="text-danger small">${timeError}</div>
-            </div>
+<!--            <div class="col-12 text-center">-->
+<!--                <button type="submit" class="btn btn-main btn-lg">-->
+<!--                    Register Conference-->
+<!--                </button>-->
+<!--            </div>-->
 
-            <div class="col-12 text-center">
-                <button type="submit" class="btn btn-main btn-lg">
-                    Register Conference
-                </button>
-            </div>
-
-        </form>
-    </div>
-</section>
+<!--        </form>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!--&lt;!&ndash; ADMIN LOGIN &ndash;&gt;-->
 <!--<section id="admin" class="section text-center">-->
@@ -435,6 +484,23 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     window.addEventListener("scroll", function () {
         let nav = document.querySelector(".navbar");
         nav.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    /* 🔥 AUTO CLONE FOR INFINITE SLIDER (NO BACKEND CHANGE) */
+
+    function createInfiniteSlider(trackId) {
+        const track = document.getElementById(trackId);
+
+        if (!track) return;
+
+        const items = track.innerHTML;
+        track.innerHTML += items; // duplicate using JS
+    }
+
+    // apply for both sliders
+    window.addEventListener("load", () => {
+        createInfiniteSlider("upcomingTrack");
+        createInfiniteSlider("previousTrack");
     });
 </script>
 

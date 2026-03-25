@@ -1,12 +1,13 @@
 package com.xworkz.confManage.service.conference;
 
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
-import com.xworkz.confManage.entity.conference.ConferenceEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface ConferenceService {
-    boolean saveConference(ConferenceDTO conferenceDTO);
+//    boolean saveConference(ConferenceDTO conferenceDTO);
 
     List<ConferenceDTO> getUnApprovedConferences();
 
@@ -20,4 +21,6 @@ public interface ConferenceService {
 
 
     List<ConferenceDTO> getAllConferences();
+
+    boolean saveConference(@Valid ConferenceDTO conferenceDTO, MultipartFile poster, MultipartFile delegateFile);
 }
