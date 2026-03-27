@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
@@ -175,6 +176,29 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         margin-top:auto;
         }
 
+        .profile-circle{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#ff9800;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.profile-circle:hover{
+    transform:scale(1.1);
+}
+
+.dropdown-menu{
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
     </style>
 
 </head>
@@ -199,10 +223,20 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 CRDMS Admin
 </span>
 
-        <a href="${pageContext.request.contextPath}/logoutAdmin"
-           class="btn btn-warning btn-sm">
-            Logout
-        </a>
+        <div class="ms-auto d-flex gap-2">
+
+            <button class="btn p-0 border-0 bg-transparent"
+                    data-bs-toggle="modal"
+                    data-bs-target="#adminProfileModal">
+
+                <!-- PROFILE IMAGE OR LETTER -->
+                <img src="https://ui-avatars.com/api/?name=${sessionScope.admin}&background=ff9800&color=fff&size=40"
+                     class="rounded-circle border border-2 border-light"
+                     width="40" height="40">
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -447,6 +481,54 @@ CRDMS Admin
     </c:if>
 
 </main>
+<div class="modal fade" id="adminProfileModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- PROFILE IMAGE -->
+            <div class="modal-header border-0 justify-content-center pb-0">
+
+                <div class="text-center">
+
+                    <img src="https://ui-avatars.com/api/?name=${sessionScope.admin}&background=ff9800&color=fff&size=110"
+                         class="rounded-circle shadow"
+                         width="110" height="110">
+
+                </div>
+
+                <button class="btn-close position-absolute end-0 me-3"
+                        data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center pt-3">
+
+                <h5 class="fw-bold mb-1">
+                    Admin
+                </h5>
+
+                <p class="text-muted mb-3">
+                    ${sessionScope.admin}
+                </p>
+
+                <!-- LOGOUT BUTTON -->
+                <div class="mt-4">
+
+                    <a href="${pageContext.request.contextPath}/logoutAdmin"
+                       class="btn btn-danger w-100">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <footer>
     © 2026 CRDMS Admin Dashboard | Secure Management Portal

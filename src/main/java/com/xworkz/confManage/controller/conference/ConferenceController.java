@@ -20,64 +20,6 @@ public class ConferenceController {
 
     @Autowired
     ConferenceService conferenceService;
-//
-//    @PostMapping("conferenceRegister")
-//    public ModelAndView registerConference(
-//            @Valid ConferenceDTO conferenceDTO,
-//            BindingResult bindingResult,
-//            ModelAndView mv) {
-//
-//        mv.addObject("dto", conferenceDTO);
-//
-//
-//        if (bindingResult.hasErrors()) {
-//
-//            if (bindingResult.hasFieldErrors("hostName")) {
-//                mv.addObject("hostNameError",
-//                        bindingResult.getFieldError("hostName").getDefaultMessage());
-//            }
-//
-//            if (bindingResult.hasFieldErrors("email")) {
-//                mv.addObject("emailError",
-//                        bindingResult.getFieldError("email").getDefaultMessage());
-//            }
-//
-//            if (bindingResult.hasFieldErrors("conferenceTopic")) {
-//                mv.addObject("topicError",
-//                        bindingResult.getFieldError("conferenceTopic").getDefaultMessage());
-//            }
-//
-//            if (bindingResult.hasFieldErrors("targetedAudience")) {
-//                mv.addObject("audienceError",
-//                        bindingResult.getFieldError("targetedAudience").getDefaultMessage());
-//            }
-//
-//            if (bindingResult.hasFieldErrors("date")) {
-//                mv.addObject("dateError",
-//                        bindingResult.getFieldError("date").getDefaultMessage());
-//            }
-//
-//            if (bindingResult.hasFieldErrors("time")) {
-//                mv.addObject("timeError",
-//                        bindingResult.getFieldError("time").getDefaultMessage());
-//            }
-//
-////            mv.setViewName("index");
-////            return mv;
-//        }
-//
-//        boolean isSaved = conferenceService.saveConference(conferenceDTO);
-//
-//        if (isSaved) {
-//            mv.addObject("successMsg", "Conference submitted successfully");
-//            mv.addObject("dto", new ConferenceDTO());
-//        } else {
-//            mv.addObject("errorMsg", "Something went wrong");
-//        }
-//
-//        mv.setViewName("index");
-//        return mv;
-//    }
 
 
     @GetMapping("/admin/dashboard")
@@ -160,16 +102,16 @@ public class ConferenceController {
         return "redirect:/admin/dashboard";
     }
 
-//    @GetMapping({"http://localhost:8080/conference/", "conference/"})
-//    public ModelAndView loadHome(ModelAndView modelAndView) {
-//        System.out.println("hi");
-//        System.out.println(conferenceService.getSentConferences());
-//        List<ConferenceDTO> upcoming =
-//                conferenceService.getSentConferences();
-//
-//       modelAndView.addObject ("upcomingList", upcoming);
-//       modelAndView.setViewName("index");
-//
-//        return modelAndView;
-//    }
+    @GetMapping("/upcomingConference")
+    public ModelAndView loadHome(ModelAndView modelAndView) {
+        System.out.println("hi");
+        System.out.println(conferenceService.getSentConferences());
+        List<ConferenceDTO> upcoming =
+                conferenceService.getSentConferences();
+
+       modelAndView.addObject ("upcomingList", upcoming);
+       modelAndView.setViewName("index");
+
+        return modelAndView;
+    }
 }

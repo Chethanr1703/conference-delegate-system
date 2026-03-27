@@ -251,7 +251,7 @@ public class ConferenceServiceImpl implements ConferenceService {
             role="OTHERS";
         }
 
-        String link = "http://192.168.117.125:8080/conference/delegatesRegister?confId=" + confId;
+        String link = "192.168.219.125:8080/conference/delegatesRegister?confId=" + confId;
 
         String subject = "Conference Notification & Login Details";
 

@@ -223,10 +223,20 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 CRDMS TPO / HR
 </span>
 
-        <a href="${pageContext.request.contextPath}/logout"
-           class="btn btn-warning btn-sm">
-            Logout
-        </a>
+        <div class="ms-auto d-flex gap-2">
+
+            <button class="btn p-0 border-0 bg-transparent"
+                    data-bs-toggle="modal"
+                    data-bs-target="#adminProfileModal">
+
+                <!-- PROFILE IMAGE OR LETTER -->
+                <img src="https://ui-avatars.com/api/?name=${sessionScope.delegate.email}&background=ff9800&color=fff&size=40"
+                     class="rounded-circle border border-2 border-light"
+                     width="40" height="40">
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -395,6 +405,53 @@ CRDMS TPO / HR
 
     </section>
 </c:if>
+<div class="modal fade" id="adminProfileModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- PROFILE IMAGE -->
+            <div class="modal-header border-0 justify-content-center pb-0">
+
+                <div class="text-center">
+
+                    <img src="https://ui-avatars.com/api/?name=${sessionScope.delegate.email}&background=ff9800&color=fff&size=110"
+                         class="rounded-circle shadow"
+                         width="110" height="110">
+
+                </div>
+
+                <button class="btn-close position-absolute end-0 me-3"
+                        data-bs-dismiss="modal"></button>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center pt-3">
+
+                <h5 class="fw-bold mb-1">
+                    Delegate
+                </h5>
+
+                <p class="text-muted mb-3">
+                    ${sessionScope.delegate.email}
+                </p>
+
+                <!-- LOGOUT BUTTON -->
+                <div class="mt-4">
+
+                    <a href="${pageContext.request.contextPath}/logout"
+                       class="btn btn-danger w-100">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <footer>
     © 2026 CRDMS TPO / HR Dashboard
