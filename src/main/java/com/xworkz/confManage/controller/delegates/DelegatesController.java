@@ -44,6 +44,10 @@ public class DelegatesController {
     public String getLoginPage() {
         return "delegateLogin";
     }
+//    @GetMapping("delegatesPage")
+//    public String backToIndex(){
+//        return "delegatesPage";
+//    }
 
     @GetMapping("delegatesRegister")
     public String getStudentRegister() {
@@ -167,7 +171,6 @@ public class DelegatesController {
 
         Row header = sheet.createRow(0);
 
-//        header.createCell(0).setCellValue("slno");
         header.createCell(0).setCellValue("name");
         header.createCell(1).setCellValue("email");
         header.createCell(2).setCellValue("mobile");

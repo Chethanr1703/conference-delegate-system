@@ -223,9 +223,9 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#works">Previous Conferences</a></li>
-                <li class="nav-item"><a class="nav-link" href="RegisterConference.jsp">Register Conference</a></li>
-                <li class="nav-item"><a class="nav-link" href="AdminLoginPage.jsp">Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="delegateLogin.jsp">Delegate Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="registerConference">Register Conference</a></li>
+                <li class="nav-item"><a class="nav-link" href="adminLogin">Admin Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="delegateLogin">Delegate Login</a></li>
             </ul>
         </div>
     </div>
@@ -243,7 +243,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             <a href="#register" class="btn btn-host btn-custom me-3">
                 <i class="fas fa-microphone"></i> Host a Conference
             </a>
-            <a href="AdminLoginPage.jsp" class="btn btn-delegate btn-custom">
+            <a href="adminLogin" class="btn btn-delegate btn-custom">
                 <i class="fas fa-user-shield"></i> Admin Login
             </a>
         </div>
@@ -344,118 +344,6 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         </div>
     </div>
 </section>
-<!--&lt;!&ndash; REGISTRATION &ndash;&gt;-->
-<!--<section id="register" class="section bg-light">-->
-<!--    <div class="container">-->
-<!--        <h2 class="text-center mb-5" data-aos="fade-up">New Conference Registration</h2>-->
-
-<!--        <c:if test="${not empty successMsg}">-->
-<!--            <div class="alert alert-success text-center mt-3">-->
-<!--                ${successMsg}-->
-<!--            </div>-->
-<!--        </c:if>-->
-
-<!--        <c:if test="${not empty errorMsg}">-->
-<!--            <div class="alert alert-danger text-center mt-3">-->
-<!--                ${errorMsg}-->
-<!--            </div>-->
-<!--        </c:if>-->
-
-<!--        <form class="row g-3" data-aos="fade-up" action="conferenceRegister" method="post">-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="text" class="form-control"-->
-<!--                       placeholder="Host Name"-->
-<!--                       name="hostName"-->
-<!--                       value="${dto.hostName}">-->
-<!--                <div class="text-danger small">${hostNameError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="email" class="form-control"-->
-<!--                       placeholder="Host email"-->
-<!--                       name="email"-->
-<!--                       value="${dto.email}">-->
-<!--                <div class="text-danger small">${emailError}</div>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; Delegates Email Field &ndash;&gt;-->
-<!--            <div class="col-md-6">-->
-<!--                <input type="text" class="form-control"-->
-<!--                       placeholder="Delegates Email"-->
-<!--                       name="delegatesEmail"-->
-<!--                       value="${dto.delegatesEmail}">-->
-<!--                <div class="text-danger small">${delegatesEmailError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="text" class="form-control"-->
-<!--                       placeholder="Conference Topic"-->
-<!--                       name="conferenceTopic"-->
-<!--                       value="${dto.conferenceTopic}">-->
-<!--                <div class="text-danger small">${topicError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="text" class="form-control"-->
-<!--                       placeholder="Target Audience(Students , Employees )"-->
-<!--                       name="targetedAudience"-->
-<!--                       value="${dto.targetedAudience}">-->
-<!--                <div class="text-danger small">${audienceError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="date" class="form-control"-->
-<!--                       name="date"-->
-<!--                       value="${dto.date}">-->
-<!--                <div class="text-danger small">${dateError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-6">-->
-<!--                <input type="text" class="form-control"-->
-<!--                       name="time"-->
-<!--                       placeholder="hh:mm AM/PM"-->
-<!--                       pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)"-->
-<!--                       value="${dto.time}">-->
-<!--                <div class="text-danger small">${timeError}</div>-->
-<!--            </div>-->
-
-<!--            <div class="col-12 text-center">-->
-<!--                <button type="submit" class="btn btn-main btn-lg">-->
-<!--                    Register Conference-->
-<!--                </button>-->
-<!--            </div>-->
-
-<!--        </form>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!--&lt;!&ndash; ADMIN LOGIN &ndash;&gt;-->
-<!--<section id="admin" class="section text-center">-->
-<!--    <div class="container">-->
-<!--        <h2 class="mb-4" data-aos="fade-up">Admin Login</h2>-->
-<!--        <c:if test="${not empty errorMsg1}">-->
-<!--            <div class="alert alert-danger mt-2">-->
-<!--                ${errorMsg1}-->
-<!--            </div>-->
-<!--        </c:if>-->
-
-<!--        <form class="row justify-content-center" data-aos="zoom-in" action="login" method="post">-->
-
-<!--            <div class="col-md-4">-->
-<!--                <input type="email" class="form-control mb-3" placeholder="Admin Email" name="email" required>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-4">-->
-<!--                <input type="password" class="form-control mb-3" placeholder="Password" name="password" required>-->
-<!--            </div>-->
-
-<!--            <div class="col-12">-->
-<!--                <button class="btn btn-primary btn-lg">Login</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</section>-->
 <!-- ABOUT -->
 <section id="about" class="section text-center bg-light">
     <div class="container" data-aos="fade-up">

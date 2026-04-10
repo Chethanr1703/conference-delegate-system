@@ -198,6 +198,51 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     border-radius:12px;
     box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
+        .conf-card:hover i{
+transform:scale(1.1);
+transition:0.3s;
+}
+
+        /* COMPACT CARD DESIGN */
+.conf-card{
+    background:white;
+    border-radius:14px;
+
+    padding:16px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    height:100%;
+    min-height:190px;
+
+    box-shadow:0 6px 15px rgba(0,0,0,0.10); /* lighter shadow */
+
+    transition:all 0.3s ease;
+
+    border-left:4px solid #2c5364;
+
+    position:relative;
+    overflow:hidden;
+}
+
+/* TEXT SIZE REDUCTION */
+.conf-card h5{
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.conf-card p{
+    font-size:15.5px;
+    margin-bottom:4px;
+}
+
+/* BUTTON SIZE */
+.conf-card .btn{
+    font-size:12px;
+    padding:6px 10px;
+}
 
     </style>
 
@@ -376,62 +421,108 @@ CRDMS Admin
     </div>
 
     <!-- SENT -->
-
     <c:if test="${showSent}">
         <section class="container mt-5">
 
-            <div class="table-section">
+            <h3 class="section-title text-center">
+                Sent To Delegates Conferences
+            </h3>
 
-                <h4 class="mb-3">Sent To Delegates Conferences</h4>
+            <c:if test="${not empty successMsg}">
+                <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                    ${successMsg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
 
-                <table class="table table-hover">
+            <c:if test="${not empty errorMsg}">
+                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                    ${errorMsg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
+            <div class="row">
 
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Conference</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
 
-                    <tbody>
+                <c:forEach var="conf" items="${conferenceList}">
 
-                    <c:forEach var="conf" items="${conferenceList}">
-                        <tr>
+                    <div class="col-md-4 mb-4" data-aos="fade-up">
 
-                            <td>${conf.id}</td>
-                            <td>${conf.conferenceTopic}</td>
-                            <td>${conf.date}</td>
+                        <div class="conf-card">
 
-                            <td>
+                            <!-- TITLE -->
+                            <h5>${conf.conferenceTopic}</h5>
+
+                            <!-- DETAILS -->
+                            <p><strong>Date:</strong> ${conf.date}</p>
+
+                            <!-- STATUS -->
+                            <p>
+                                <strong>Status:</strong>
                                 <c:choose>
+
                                     <c:when test="${conf.emailSent}">
                                         <span class="badge bg-success">Sent</span>
                                     </c:when>
+
                                     <c:when test="${conf.active}">
                                         <span class="badge bg-primary">Approved</span>
                                     </c:when>
+
                                     <c:otherwise>
                                         <span class="badge bg-warning">Pending</span>
                                     </c:otherwise>
+
                                 </c:choose>
-                            </td>
+                            </p>
 
-                            <td>
-                                <form action="${pageContext.request.contextPath}/participantsAdmin" method="get">
-                                    <input type="hidden" name="conferenceId" value="${conf.id}">
-                                    <button class="btn btn-sm btn-primary">View Participants</button>
+                            <!-- ACTION BUTTONS -->
+                            <div class="d-flex gap-2 mt-3">
+
+                                <!-- VIEW PARTICIPANTS -->
+                                <form action="${pageContext.request.contextPath}/participantsAdmin"
+                                      method="get" class="w-50">
+
+                                    <input type="hidden"
+                                           name="conferenceId"
+                                           value="${conf.id}">
+
+                                    <button class="btn btn-primary w-100 btn-sm">
+                                        <i class="fas fa-users"></i>
+                                        View
+                                    </button>
+
                                 </form>
-                            </td>
 
-                        </tr>
-                    </c:forEach>
+                                <!-- SEND REMINDER -->
+                                <form action="${pageContext.request.contextPath}/sendReminder"
+                                      method="post" class="w-50">
 
-                    </tbody>
+                                    <input type="hidden"
+                                           name="conferenceId"
+                                           value="${conf.id}">
 
-                </table>
+                                    <button class="btn btn-warning w-100 btn-sm">
+                                        <i class="fas fa-bell"></i>
+                                        Reminder
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </c:forEach>
+
+                <!-- EMPTY STATE -->
+                <c:if test="${empty conferenceList}">
+                    <div class="text-center text-muted">
+                        No Conferences Sent To Delegates Yet
+                    </div>
+                </c:if>
 
             </div>
 

@@ -23,6 +23,15 @@ public class ConferenceRegistrationController {
 
     @Autowired
     ConferenceService conferenceService;
+    @GetMapping("registerConference")
+    public String loadRegisterPage(){
+        return "RegisterConference";
+    }
+
+    @GetMapping("backToIndex")
+    public String backToIndex(){
+        return "index";
+    }
 
     @PostMapping("conferenceRegister")
     public ModelAndView registerConference(

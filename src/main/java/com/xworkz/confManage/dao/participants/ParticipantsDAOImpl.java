@@ -69,4 +69,15 @@ public class ParticipantsDAOImpl implements ParticipantsDAO{
         entityManager.getTransaction().commit();
         return true;
     }
+    @Override
+    public List<ParticipantsEntity> getParticipantsByConferenceId(int conferenceId) {
+
+        EntityManager em = entityManagerFactory.createEntityManager();
+
+        return em.createQuery(
+                        "SELECT p FROM ParticipantsEntity p WHERE p.conference.id = :cid",
+                        ParticipantsEntity.class)
+                .setParameter("cid", conferenceId)
+                .getResultList();
+    }
 }

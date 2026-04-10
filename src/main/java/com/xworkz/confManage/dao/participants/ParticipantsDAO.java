@@ -12,4 +12,6 @@ public interface ParticipantsDAO {
     List<ParticipantsEntity> findParticipantsForAdmin(int conferenceId);
 
     boolean registerIndividualParticipants(ParticipantsEntity participants);
+
+    List<ParticipantsEntity> getParticipantsByConferenceId(int conferenceId);
 }

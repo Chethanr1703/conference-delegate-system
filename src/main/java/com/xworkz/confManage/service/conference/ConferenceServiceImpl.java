@@ -3,9 +3,11 @@ package com.xworkz.confManage.service.conference;
 import com.xworkz.confManage.dao.conference.ConferenceDAO;
 import com.xworkz.confManage.dao.delegateDashBoard.DelegateDashboardDAO;
 import com.xworkz.confManage.dao.delegates.DelegateDAO;
+import com.xworkz.confManage.dao.participants.ParticipantsDAO;
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
 import com.xworkz.confManage.entity.conference.ConferenceEntity;
 import com.xworkz.confManage.entity.delegates.DelegateUserEntity;
+import com.xworkz.confManage.entity.participants.ParticipantsEntity;
 import com.xworkz.confManage.utils.EmailService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -33,6 +35,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Autowired
     DelegateDashboardDAO delegateDashboard;
+
+    @Autowired
+    ParticipantsDAO participantsDAO;
 
     @Override
     public boolean saveConference(ConferenceDTO dto,
@@ -399,6 +404,92 @@ public class ConferenceServiceImpl implements ConferenceService {
 
 
 
+
+    @Override
+    public boolean sendReminderToParticipants(int confId) {
+
+        ConferenceEntity conf = conferenceDAO.findById(confId);
+
+        if (conf == null) return false;
+
+        List<ParticipantsEntity> list =
+                participantsDAO.getParticipantsByConferenceId(confId);
+
+        if (list == null || list.isEmpty()) return false;
+
+        String subject = "Reminder: " + conf.getConferenceTopic();
+
+        for (ParticipantsEntity p : list) {
+
+            String email = p.getEmail();
+
+            String body = buildReminderEmailBody(conf, email);
+
+            // ✅ IMPORTANT LINE
+            emailService.sendHtmlMail(email, subject, body, conf);
+        }
+
+        return true;
+    }
+    private String buildReminderEmailBody(ConferenceEntity conf, String email) {
+
+        String body =
+                "<div style='font-family:Segoe UI,Arial,sans-serif;background:#f4f7fb;padding:20px;'>"
+
+                        + "<div style='max-width:650px;margin:auto;background:#ffffff;border-radius:12px;"
+                        + "overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.1);'>"
+
+                        /* HEADER */
+                        + "<div style='background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);"
+                        + "color:white;padding:20px;text-align:center;'>"
+                        + "<h2 style='margin:0;'>Conference Reminder</h2>"
+                        + "<p style='margin:5px 0 0;'>CRDMS Conference System</p>"
+                        + "</div>"
+
+                        + "<div style='text-align:center;background:#eef3f8;padding:15px;'>"
+                        + "<img src='cid:posterImage' style='max-width:100%;border-radius:10px;'/>"
+                        + "</div>"
+
+                        /* BODY */
+                        + "<div style='padding:25px;'>"
+
+                        + "<h3 style='color:#2c5364;margin-bottom:10px;'>"
+                        + conf.getConferenceTopic()
+                        + "</h3>"
+
+                        + "<p style='color:#555;font-size:14px;'>"
+                        + "This is a gentle reminder for your upcoming conference. "
+                        + "We look forward to your participation."
+                        + "</p>"
+
+                        /* DETAILS BOX */
+                        + "<div style='background:#f8f9fa;padding:15px;border-radius:10px;margin:15px 0;'>"
+                        + "<p><b>Date:</b> " + conf.getDate() + "</p>"
+                        + "<p><b>Time:</b> " + conf.getTime() + "</p>"
+                        + "</div>"
+
+                        /* HIGHLIGHT MESSAGE */
+                        + "<p style='color:#444;font-size:14px;'>"
+                        + "Please make sure to join the session on time. "
+                        + "Your presence is valuable to us."
+                        + "</p>"
+
+
+                        + "</div>"
+
+                        + "</div>"
+
+                        /* FOOTER */
+                        + "<div style='background:#0f2027;color:white;text-align:center;padding:15px;'>"
+                        + "<p style='margin:0;'>© 2026 CRDMS Conference System</p>"
+                        + "<small>This is an automated reminder email</small>"
+                        + "</div>"
+
+                        + "</div>"
+                        + "</div>";
+
+        return body;
+    }
 
 
 

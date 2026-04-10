@@ -23,4 +23,6 @@ public interface ConferenceService {
     List<ConferenceDTO> getAllConferences();
 
     boolean saveConference(@Valid ConferenceDTO conferenceDTO, MultipartFile poster, MultipartFile delegateFile);
+
+    boolean sendReminderToParticipants(int conferenceId);
 }

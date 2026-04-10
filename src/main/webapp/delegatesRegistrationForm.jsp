@@ -138,17 +138,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
 
 
-<!--            <div class="col-md-6 mb-3">-->
-<!--                <input type="password" class="form-control"-->
-<!--                       placeholder="Create Password"-->
-<!--                       name="password" required>-->
-<!--            </div>-->
 
-<!--            <div class="col-md-6 mb-3">-->
-<!--                <input type="password" class="form-control"-->
-<!--                       placeholder="Confirm Password"-->
-<!--                       name="confirmPassword" required>-->
-<!--            </div>-->
 
             <!-- Attendance Selection -->
             <div class="col-12 mb-4 text-center">

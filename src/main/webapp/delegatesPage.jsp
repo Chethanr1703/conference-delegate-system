@@ -78,7 +78,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         .dashboard-hero{
         background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
         color:white;
-        padding:60px 0;
+        padding:30px 0;
         text-align:center;
         box-shadow:0 6px 20px rgba(0,0,0,0.3);
         }
