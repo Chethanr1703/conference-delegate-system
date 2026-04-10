@@ -22,7 +22,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         body{
         font-family:'Segoe UI',sans-serif;
         background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-        min-height:100vh;
+        height:100vh;
+        overflow:hidden;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -33,31 +34,36 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         .form-card{
         background:rgba(255,255,255,0.08);
         backdrop-filter:blur(18px);
-        border-radius:20px;
-        padding:40px;
+        border-radius:18px;
+        padding:25px;
         width:100%;
-        max-width:950px;
+        max-width:800px;
         color:white;
-        box-shadow:0 15px 40px rgba(0,0,0,0.35);
-        transition:0.3s;
+        box-shadow:0 12px 30px rgba(0,0,0,0.3);
         }
 
-        .form-card:hover{
-        transform:translateY(-5px);
+        /* TITLE */
+
+        h3{
+        font-size:20px;
+        margin-bottom:10px !important;
         }
 
         /* INPUTS */
 
         .form-control{
-        border-radius:12px;
-        padding:12px;
+        border-radius:10px;
+        padding:8px 10px;
+        font-size:14px;
         }
 
-        /* SECTION LABEL */
+        /* LABEL */
 
         .section-label{
         font-weight:600;
-        margin-top:15px;
+        margin-top:10px;
+        margin-bottom:5px;
+        font-size:14px;
         color:#ffcc80;
         }
 
@@ -66,30 +72,45 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         .btn-main{
         background:#ff9800;
         border:none;
-        border-radius:30px;
-        padding:12px;
-        font-weight:600;
+        border-radius:25px;
+        padding:8px;
+        font-size:14px;
         }
 
         .btn-main:hover{
         background:#e68900;
         }
 
-        /* OPTION BOX */
+        /* BOX */
 
         .option-box{
         border:1px solid rgba(255,255,255,0.2);
-        border-radius:15px;
-        padding:15px;
-        margin-top:10px;
+        border-radius:12px;
+        padding:10px;
+        margin-top:5px;
         }
 
         /* FILE BOX */
 
         .file-box{
         background:rgba(255,255,255,0.08);
-        padding:12px;
-        border-radius:10px;
+        padding:8px;
+        border-radius:8px;
+        }
+
+        /* SMALL TEXT */
+
+        small{
+        font-size:12px;
+        color:#ddd;
+        }
+
+        /* RESPONSIVE SCALE */
+
+        @media (max-height: 750px){
+        .form-card{
+        transform:scale(0.92);
+        }
         }
 
     </style>
@@ -100,7 +121,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
 <div class="form-card" data-aos="zoom-in">
 
-    <h3 class="text-center mb-4">
+    <h3 class="text-center">
         <i class="fas fa-microphone"></i>
         Conference Registration
     </h3>
@@ -108,16 +129,16 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     <!-- SUCCESS / ERROR -->
 
     <c:if test="${not empty successMsg}">
-        <div class="alert alert-success text-center">${successMsg}</div>
+        <div class="alert alert-success text-center p-2">${successMsg}</div>
     </c:if>
 
     <c:if test="${not empty errorMsg}">
-        <div class="alert alert-danger text-center">${errorMsg}</div>
+        <div class="alert alert-danger text-center p-2">${errorMsg}</div>
     </c:if>
 
     <form action="conferenceRegister" method="post" enctype="multipart/form-data">
 
-        <div class="row g-3">
+        <div class="row g-2">
 
             <!-- HOST NAME -->
             <div class="col-md-6">
@@ -125,7 +146,6 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                        placeholder="Host Name"
                        name="hostName"
                        value="${dto.hostName}">
-                <div class="text-danger small">${hostNameError}</div>
             </div>
 
             <!-- EMAIL -->
@@ -134,7 +154,6 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                        placeholder="Host Email"
                        name="email"
                        value="${dto.email}">
-                <div class="text-danger small">${emailError}</div>
             </div>
 
             <!-- TOPIC -->
@@ -168,18 +187,19 @@ pageEncoding="UTF-8" isELIgnored="false" %>
                        value="${dto.time}">
             </div>
 
-            <!-- POSTER UPLOAD -->
+            <!-- POSTER -->
+
             <div class="col-12">
                 <label class="section-label">
-                    <i class="fas fa-image"></i> Upload Conference Poster (Optional)
+                    <i class="fas fa-image"></i> Upload Poster
                 </label>
 
                 <div class="file-box">
-                    <input type="file" class="form-control" name="poster">
+                    <input type="file" class="form-control form-control-sm" name="poster">
                 </div>
             </div>
 
-            <!-- ================= DELEGATE SECTION ================= -->
+            <!-- DELEGATES -->
 
             <div class="col-12">
                 <label class="section-label">
@@ -188,51 +208,43 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
                 <div class="option-box">
 
-                    <!-- SINGLE EMAIL -->
-
-                    <input type="text" class="form-control mb-2"
+                    <input type="text" class="form-control mb-1"
                            placeholder="Single Delegate Email"
                            name="delegatesEmail"
                            value="${dto.delegatesEmail}">
 
-                    <div class="text-center mb-2">OR</div>
-
-                    <!-- BULK OPTION -->
+                    <div class="text-center small mb-1">OR</div>
 
                     <div class="file-box">
 
-                            <div class="row g-2 align-items-center">
+                        <div class="row g-1 align-items-center">
 
                             <div class="col-5">
                                 <a href="${pageContext.request.contextPath}/downloadDelegateTemplate"
-                                   class="btn btn-outline-light w-100 btn-sm">
+                                   class="btn btn-outline-light btn-sm w-100">
                                     <i class="fas fa-download"></i>
-                                    Download Template
+                                    Template
                                 </a>
                             </div>
 
-                                <!-- FILE INPUT -->
-                                <div class="col-7">
-                                    <input type="file"
-                                           name="delegateFile"
-                                           class="form-control form-control-sm">
-                                </div>
-
+                            <div class="col-7">
+                                <input type="file"
+                                       name="delegateFile"
+                                       class="form-control form-control-sm">
                             </div>
 
-                        </form>
+                        </div>
+
                     </div>
 
-                    <small >
-                        Use single email OR upload Excel (not both)
-                    </small>
+                    <small>Use single email OR Excel</small>
 
                 </div>
             </div>
 
             <!-- SUBMIT -->
 
-            <div class="col-12 text-center mt-3">
+            <div class="col-12 text-center mt-2">
                 <button type="submit" class="btn btn-main w-50">
                     Register Conference
                 </button>
@@ -242,8 +254,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     </form>
 
-    <div class="text-center mt-3">
-        <a href="index.jsp" class="text-light">
+    <div class="text-center mt-2">
+        <a href="backToIndex" class="text-light small">
             ← Back to Home
         </a>
     </div>
@@ -254,7 +266,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-    AOS.init({duration:1000});
+    AOS.init({duration:800});
 </script>
 
 </body>

@@ -64,11 +64,11 @@ public class ParticipantsServiceImpl implements ParticipantsService{
                     continue;
                 }
 
-                String name = formatter.formatCellValue(row.getCell(1));
-                String email = formatter.formatCellValue(row.getCell(2));
-                String mobile = formatter.formatCellValue(row.getCell(3));
-                String org = formatter.formatCellValue(row.getCell(4));
-                String attending = formatter.formatCellValue(row.getCell(5));
+                String name = formatter.formatCellValue(row.getCell(0)).trim();
+                String email = formatter.formatCellValue(row.getCell(1));
+                String mobile = formatter.formatCellValue(row.getCell(2));
+                String org = formatter.formatCellValue(row.getCell(3));
+                String attending = formatter.formatCellValue(row.getCell(4));
 
                 // -------- VALIDATIONS --------
 

@@ -13,7 +13,7 @@ public class ParticipantsValidator {
                 Pattern.compile("\\d{10}");
 
         public static boolean validName(String name){
-            return name != null && name.matches("^[A-Za-z ]+$");
+            return name != null && name.trim().matches("^[A-Za-z. ]+$");
         }
 
         public static boolean validEmail(String email){
