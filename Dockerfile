@@ -10,4 +10,4 @@ RUN mvn clean package
 
 EXPOSE 8080
 
-CMD ["java", "-cp", "target/conference-delegate-system.war", "com.xworkz.confManage.MainApp"]
+CMD ["java", "-cp", "target/classes", "com.xworkz.confManage.MainApp"]
