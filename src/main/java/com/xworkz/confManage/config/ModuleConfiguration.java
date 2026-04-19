@@ -34,9 +34,9 @@ public class ModuleConfiguration {
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/conferenceProject");
+        dataSource.setUrl("jdbc:mysql://roundhouse.proxy.rlwy.net:11470/railway?useSSL=false&allowPublicKeyRetrieval=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("Chethan17@08");
+        dataSource.setPassword("rzpqDCOoJxtYGSWAbywuwKrPDtmWxwlv");
         return dataSource;
     }
     // thoery  -
