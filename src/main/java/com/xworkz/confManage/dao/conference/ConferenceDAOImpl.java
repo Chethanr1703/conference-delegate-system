@@ -100,7 +100,7 @@ public class ConferenceDAOImpl implements ConferenceDAO{
     @Override
     public List<ConferenceEntity> getSentConferences() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query= entityManager.createQuery("from ConferenceEntity ref where ref.emailSent=true");
+        Query query= entityManager.createQuery("FROM ConferenceEntity c WHERE c.emailSent = true AND c.date >= CURRENT_DATE ORDER BY c.date ASC");
         List<ConferenceEntity> list =query.getResultList();
         if(list!=null){
             return list;

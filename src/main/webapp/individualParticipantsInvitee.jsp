@@ -209,7 +209,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <div class="mt-4">
 
-        <a href="delegatesPage.jsp" class="back-link">
+        <a href="delegatesPage" class="back-link">
             ← Back to Home
         </a>
 

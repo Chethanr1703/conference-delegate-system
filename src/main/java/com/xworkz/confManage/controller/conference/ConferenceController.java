@@ -1,5 +1,6 @@
 package com.xworkz.confManage.controller.conference;
 
+import com.xworkz.confManage.dto.Response.ConferenceResponseDTO;
 import com.xworkz.confManage.dto.conferencedto.ConferenceDTO;
 import com.xworkz.confManage.service.conference.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @Controller
-
 public class ConferenceController {
 
     @Autowired
@@ -102,16 +101,22 @@ public class ConferenceController {
         return "redirect:/admin/dashboard";
     }
 
-    @GetMapping("/upcomingConference")
-    public ModelAndView loadHome(ModelAndView modelAndView) {
-        System.out.println("hi");
-        System.out.println(conferenceService.getSentConferences());
-        List<ConferenceDTO> upcoming =
-                conferenceService.getSentConferences();
 
-       modelAndView.addObject ("upcomingList", upcoming);
-       modelAndView.setViewName("index");
+    @GetMapping(value = "/api/upcoming", produces = "application/json")
+    @ResponseBody
+    public List<ConferenceResponseDTO> loadHome() {
+        List<ConferenceDTO> upcoming = conferenceService.getSentConferences();
 
-        return modelAndView;
+        return upcoming.stream().map(conf -> new ConferenceResponseDTO(
+                conf.getId(),
+                conf.getHostName(),
+                conf.getEmail(),
+                conf.getConferenceTopic(),
+                conf.getTargetedAudience(),
+                conf.getDate() != null ? conf.getDate().toString() : "",
+                conf.getTime(),
+                conf.isActive(),
+                conf.isEmailSent()
+        )).collect(java.util.stream.Collectors.toList());
     }
 }

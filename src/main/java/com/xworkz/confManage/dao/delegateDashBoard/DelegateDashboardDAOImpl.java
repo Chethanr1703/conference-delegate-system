@@ -43,7 +43,7 @@ public class DelegateDashboardDAOImpl implements DelegateDashboardDAO{
     @Override
     public List<ConferenceEntity> findAllConferencesByEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query=entityManager.createQuery("Select ref From  ConferenceEntity ref  where ref.delegatesEmail LIKE :email");
+        Query query=entityManager.createQuery("Select ref From  ConferenceEntity ref  where ref.delegatesEmail LIKE :email and ref.emailSent=true");
         query.setParameter("email","%" + email + "%");
         List<ConferenceEntity> conferenceEntities =query.getResultList();
         return conferenceEntities;
@@ -53,7 +53,7 @@ public class DelegateDashboardDAOImpl implements DelegateDashboardDAO{
     @Override
     public List<ConferenceEntity> findConferencesByEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createQuery("SELECT c FROM ConferenceEntity c WHERE c.delegatesEmail LIKE :email and delegateResponse IS NULL");
+        Query query = entityManager.createQuery("SELECT c FROM ConferenceEntity c WHERE c.delegatesEmail LIKE :email and delegateResponse IS NULL and  c.emailSent=true");
 
         List<ConferenceEntity> conferenceEntities =query .setParameter("email","%" + email + "%").getResultList();
         return conferenceEntities;

@@ -18,4 +18,6 @@ public interface ParticipantsService {
     List<ParticipantsEntity> getParticipantsForAdmin(int conferenceId);
 
     boolean registerParticipant(@Valid ParticipantsDTO participantsDTO);
+
+    boolean registerOnlineParticipant(@Valid ParticipantsDTO dto);
 }

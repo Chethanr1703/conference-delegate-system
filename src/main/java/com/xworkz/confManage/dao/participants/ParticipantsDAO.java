@@ -14,4 +14,6 @@ public interface ParticipantsDAO {
     boolean registerIndividualParticipants(ParticipantsEntity participants);
 
     List<ParticipantsEntity> getParticipantsByConferenceId(int conferenceId);
+
+    boolean save(ParticipantsEntity entity);
 }

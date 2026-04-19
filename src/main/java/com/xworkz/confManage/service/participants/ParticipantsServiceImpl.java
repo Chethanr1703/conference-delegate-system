@@ -144,6 +144,7 @@ public class ParticipantsServiceImpl implements ParticipantsService{
             participants.setOrganization(participantsDTO.getOrganization());
             participants.setAttending(participantsDTO.getAttending());
 
+
             // Fetch conference
             ConferenceEntity conference =
                     conferenceDAO.findById(participantsDTO.getConferenceId());
@@ -160,6 +161,44 @@ public class ParticipantsServiceImpl implements ParticipantsService{
             return participantsDAO.registerIndividualParticipants(participants);
         }
         return false;
+    }
+
+    @Override
+    public boolean registerOnlineParticipant(ParticipantsDTO dto) {
+        if (dto == null) return false;
+
+        //  Fetch conference
+        ConferenceEntity conf =
+                conferenceDAO.findById(dto.getConferenceId());
+
+        if (conf == null) return false;
+
+        ParticipantsEntity entity = new ParticipantsEntity();
+
+        // basic fields
+        entity.setFullName(dto.getFullName());
+        entity.setEmail(dto.getEmail());
+        entity.setMobile(dto.getMobile());
+        entity.setOrganization(dto.getOrganization());
+        entity.setAttending(dto.getAttending());
+
+        //  set conference
+        entity.setConference(conf);
+
+        //  HANDLE DELEGATE (IMPORTANT)
+        if (dto.getDelegateId() != null) {
+
+            DelegateUserEntity delegate =
+                    delegateDAO.findById(dto.getDelegateId());
+
+            if (delegate != null) {
+                entity.setDelegate(delegate); // delegate user
+            }
+        } else {
+            entity.setDelegate(null); // public user
+        }
+
+        return participantsDAO.save(entity);
     }
 
 

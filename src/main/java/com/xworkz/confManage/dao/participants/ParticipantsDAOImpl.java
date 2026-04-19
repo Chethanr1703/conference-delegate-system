@@ -80,4 +80,13 @@ public class ParticipantsDAOImpl implements ParticipantsDAO{
                 .setParameter("cid", conferenceId)
                 .getResultList();
     }
+
+    @Override
+    public boolean save(ParticipantsEntity entity) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(entity);
+        entityManager.getTransaction().commit();
+        return true;
+    }
 }

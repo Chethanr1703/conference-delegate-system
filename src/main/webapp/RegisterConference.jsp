@@ -36,8 +36,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         backdrop-filter:blur(18px);
         border-radius:18px;
         padding:25px;
-        width:100%;
-        max-width:800px;
+        width:70%;
+        max-width:700px;
         color:white;
         box-shadow:0 12px 30px rgba(0,0,0,0.3);
         }

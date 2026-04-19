@@ -15,6 +15,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
@@ -79,6 +80,50 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             margin-bottom:15px;
             color:#ff9800;
         }
+        /* GLOBAL FONT */
+body{
+    font-family:'DM Sans',sans-serif;
+}
+
+/* HEADINGS */
+h1, h2, h3, h4, h5, .title{
+    font-family:'Syne',sans-serif;
+    font-weight:700;
+    letter-spacing:0.4px;
+}
+
+/* PARAGRAPH / SUBTEXT */
+p{
+    font-size:0.85rem;
+    color:rgba(255,255,255,0.7); /* keep your dark theme */
+}
+
+/* INPUT TEXT */
+.form-control{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.2px;
+}
+
+/* BUTTON TEXT */
+.btn-role{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.3px;
+}
+
+/* BACK LINK */
+.back-link{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+}
+
+/* ALERT TEXT */
+.alert{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+}
     </style>
 </head>
 
@@ -127,7 +172,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     </form>
 
     <div class="mt-4">
-        <a href="index.jsp" class="back-link">
+        <a href="backToIndex" class="back-link">
             ← Back to Home
         </a>
     </div>

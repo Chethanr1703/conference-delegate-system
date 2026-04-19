@@ -91,7 +91,7 @@ public class DelegatesController {
         String email = delegate.getEmail();
         List<ConferenceEntity> conferences =
                 delegateDashboardService.getConferencesByEmail(email);
-
+        model.addAttribute("showInvitations", true);
         model.addAttribute("conferenceList", conferences);
 
         return "delegatesPage";
@@ -198,6 +198,9 @@ public class DelegatesController {
 
         DelegateUserEntity delegate =
                 (DelegateUserEntity) session.getAttribute("delegate");
+        if (delegate == null) {
+            return ("redirect:/delegateLogin");
+        }
 
         List<String> errors =
                 participantsService.processExcel(
@@ -218,7 +221,7 @@ public class DelegatesController {
         model.addAttribute("successMsg",
                 "Participants uploaded successfully!");
 
-        return "ParticipatesInvitee";
+        return "redirect:/participants?conferenceId=" + conferenceId;
     }
 
     //---- view Participants
@@ -302,6 +305,9 @@ public class DelegatesController {
 
         DelegateUserEntity delegate =
                 (DelegateUserEntity) httpSession.getAttribute("delegate");
+        if (delegate == null) {
+            return new ModelAndView("redirect:/delegateLogin");
+        }
         if (delegate != null) {
             participantsDTO.setDelegateId(delegate.getId());
             System.out.println("delegate id from the session"+ delegate.getId());
@@ -319,7 +325,7 @@ public class DelegatesController {
 
         }
 
-        mv.setViewName("individualParticipantsInvitee");
+        mv.setViewName("redirect:/individualInviteePage?conferenceId=" + conferenceId);
 
         return mv;
     }
@@ -334,7 +340,7 @@ public class DelegatesController {
         if (session1 != null) {
             System.out.println("Session ID before logout: " + session1.getId());
 
-            session1.invalidate();  // 🔥 destroy session completely
+            session1.invalidate();  //  destroy session completely
         }
 
         return "redirect:/delegateLogin";

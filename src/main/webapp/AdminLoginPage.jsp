@@ -3,7 +3,7 @@
 pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html lang="en">
 <head>
 
     <meta charset="UTF-8">
@@ -17,10 +17,13 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <style>
+
+        /* ================= GLOBAL ================= */
 
         body{
         font-family:'Segoe UI',sans-serif;
@@ -29,66 +32,188 @@ pageEncoding="UTF-8" isELIgnored="false" %>
         display:flex;
         align-items:center;
         justify-content:center;
+        overflow:hidden;
+        position:relative;
         }
 
-        /* Glass Login Card */
+        /* Animated Background Blobs */
+
+        body::before,
+        body::after{
+        content:"";
+        position:absolute;
+        width:400px;
+        height:400px;
+        border-radius:50%;
+        filter:blur(120px);
+        z-index:0;
+        }
+
+        body::before{
+        background:#2c5364;
+        top:-120px;
+        left:-120px;
+        opacity:0.25;
+        animation:floatBlob 18s infinite alternate ease-in-out;
+        }
+
+        body::after{
+        background:#203a43;
+        bottom:-120px;
+        right:-120px;
+        opacity:0.25;
+        animation:floatBlob 22s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatBlob{
+        0%{transform:translate(0,0) scale(1);}
+        50%{transform:translate(60px,-40px) scale(1.1);}
+        100%{transform:translate(-40px,40px) scale(1);}
+        }
+
+        /* ================= CARD ================= */
 
         .login-card{
-        background:rgba(255,255,255,0.1);
-        backdrop-filter:blur(15px);
-        border-radius:20px;
-        padding:40px;
+        background:rgba(255,255,255,0.12);
+        backdrop-filter:blur(18px);
+        border-radius:22px;
+        padding:40px 35px;
         width:100%;
-        max-width:450px;
-        box-shadow:0 15px 40px rgba(0,0,0,0.3);
+        max-width:420px;
+        box-shadow:0 20px 50px rgba(0,0,0,0.4);
         color:white;
-        transition:0.4s;
+        transition:all 0.4s ease;
+        position:relative;
+        z-index:2;
         }
 
         .login-card:hover{
-        transform:translateY(-5px);
+        transform:translateY(-6px);
+        box-shadow:0 30px 60px rgba(0,0,0,0.5);
         }
 
-        /* Inputs */
+        /* ================= ICON ================= */
+
+        .role-icon{
+        font-size:50px;
+        margin-bottom:15px;
+        color:#ff9800;
+        }
+
+        /* ================= TEXT ================= */
+
+        .login-card h3{
+        font-weight:600;
+        letter-spacing:0.5px;
+        }
+
+        .login-card p{
+        font-size:14px;
+        color:#dcdcdc;
+        }
+
+        /* ================= INPUT ================= */
 
         .form-control{
         border-radius:12px;
-        padding:12px;
+        padding:12px 14px;
+        border:none;
+        font-size:14px;
+        background:rgba(255,255,255,0.9);
+        transition:0.3s;
         }
 
-        /* Login Button */
+        .form-control:focus{
+        box-shadow:0 0 0 2px rgba(255,152,0,0.4);
+        }
+
+        /* ================= BUTTON ================= */
 
         .btn-role{
-        background:#ff9800;
+        background:linear-gradient(135deg,#ff9800,#ffb74d);
         border:none;
         border-radius:30px;
         padding:12px;
         font-weight:600;
-        transition:0.3s;
+        letter-spacing:0.3px;
+        transition:all 0.3s ease;
         }
 
         .btn-role:hover{
-        background:#e68900;
+        background:linear-gradient(135deg,#e68900,#ffa726);
+        transform:scale(1.03);
         }
 
-        /* Back Link */
+        /* ================= LINK ================= */
 
         .back-link{
-        color:#00c853;
+        color:#00e676;
         text-decoration:none;
+        font-size:14px;
         }
 
         .back-link:hover{
         text-decoration:underline;
         }
 
-        /* Icon */
+        /* ================= ALERT ================= */
 
-        .role-icon{
-        font-size:45px;
-        margin-bottom:15px;
-        color:#ff9800;
+        .alert{
+        border-radius:10px;
+        font-size:14px;
         }
+        /* ================= GLOBAL FONT ================= */
+
+body{
+    font-family:'DM Sans',sans-serif;
+}
+
+/* ================= HEADINGS ================= */
+
+.login-card h3{
+    font-family:'Syne',sans-serif;
+    font-weight:700;
+    letter-spacing:0.4px;
+}
+
+/* ================= PARAGRAPH ================= */
+
+.login-card p{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    color:rgba(255,255,255,0.75);
+}
+
+/* ================= INPUT TEXT ================= */
+
+.form-control{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.2px;
+}
+
+/* ================= BUTTON TEXT ================= */
+
+.btn-role{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.3px;
+}
+
+/* ================= BACK LINK ================= */
+
+.back-link{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+}
+
+/* ================= ALERT ================= */
+
+.alert{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+}
 
     </style>
 
@@ -100,10 +225,10 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <i class="fas fa-user-shield role-icon"></i>
 
-    <h3 class="mb-3">Admin Login Portal</h3>
+    <h3 class="mb-2">Admin Login Portal</h3>
 
     <p class="mb-4">
-        Secure access to conference approvals and system management
+        Secure access to conference approvals & system management
     </p>
 
     <c:if test="${not empty errorMsg1}">
@@ -132,8 +257,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
         <button type="submit" class="btn btn-role w-100">
 
-            <i class="fas fa-lock me-1"></i>
-
+            <i class="fas fa-lock me-2"></i>
             Login Securely
 
         </button>
@@ -142,10 +266,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <div class="mt-4">
 
-        <a href="index.jsp" class="back-link">
-
+        <a href="backToIndex" class="back-link">
             ← Back to Home
-
         </a>
 
     </div>
@@ -159,11 +281,9 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-
     AOS.init({
     duration:1000
     });
-
 </script>
 
 </body>

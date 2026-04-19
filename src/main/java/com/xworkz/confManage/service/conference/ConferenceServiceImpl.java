@@ -256,7 +256,7 @@ public class ConferenceServiceImpl implements ConferenceService {
             role="OTHERS";
         }
 
-        String link = "192.168.219.125:8080/conference/delegatesRegister?confId=" + confId;
+        String link = "192.168.144.125:8080/conference/delegatesRegister?confId=" + confId;
 
         String subject = "Conference Notification & Login Details";
 
@@ -328,7 +328,7 @@ public class ConferenceServiceImpl implements ConferenceService {
                             /* BUTTONS */
                             + "<div style='text-align:center;margin-top:20px;'>"
 
-                            + "<a href='http://192.168.219.125:8080/conference/delegateLogin' "
+                            + "<a href='http://192.168.144.125:8080/conference/delegateLogin' "
                             + "style='display:inline-block;background:#2c5364;color:white;padding:12px 20px;"
                             + "text-decoration:none;border-radius:25px;margin-right:10px;'>"
                             + "Login Now</a>"
