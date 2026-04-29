@@ -344,12 +344,7 @@ public class ConferenceServiceImpl implements ConferenceService {
                             + "</div>"
                             + "</div>";
 
-                try {
-                emailService.sendHtmlMail(email, subject, body,conf);
-
-                } catch (Exception e) {
-                System.out.println("Email failed: " + e.getMessage());
-            }
+            emailService.sendHtmlMail(email, subject, body,conf);
         }
 
         conf.setEmailSent(true);
