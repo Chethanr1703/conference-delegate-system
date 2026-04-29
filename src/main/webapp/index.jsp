@@ -708,7 +708,8 @@
 
         console.log("PAGE LOADED ");
 
-        axios.get("/api/upcoming")
+<!--        axios.get("/conference/api/upcoming")-->
+axios.get("/api/upcoming")
             .then(function (response) {
 
                 console.log("API RESPONSE:", response);
