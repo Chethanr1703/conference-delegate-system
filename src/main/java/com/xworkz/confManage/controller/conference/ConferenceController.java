@@ -108,7 +108,7 @@ public class ConferenceController {
             redirectAttributes.addFlashAttribute("errorMsg", "Mail Failed ");
         }
 
-        return "redirect:/admin/dashboard?filter=sent";
+        return "redirect:/admin/dashboard?filter=approved";
     }
 
 

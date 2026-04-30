@@ -236,6 +236,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public boolean sendToTPO(int confId) {
+        boolean isEmailSent = true;
 
         ConferenceEntity conf = conferenceDAO.findById(confId);
 
@@ -263,94 +264,101 @@ public class ConferenceServiceImpl implements ConferenceService {
         for (String email : emailList) {
 
             email = email.trim();
+            try {
+                DelegateUserEntity user = delegateDAO.findByEmail(email);
 
-            DelegateUserEntity user = delegateDAO.findByEmail(email);
+                String password;
 
-            String password;
-
-            if (user == null) {
+                if (user == null) {
 
 
-                user = new DelegateUserEntity();
-                user.setEmail(email);
+                    user = new DelegateUserEntity();
+                    user.setEmail(email);
 
-                password = generatePassword(email);
-                user.setPassword(password);
-                user.setRole(role);
+                    password = generatePassword(email);
+                    user.setPassword(password);
+                    user.setRole(role);
 
-                delegateDAO.save(user);
+                    delegateDAO.save(user);
 
-            } else {
-                password = user.getPassword();
+                } else {
+                    password = user.getPassword();
+                }
+
+
+                String body =
+                        "<div style='font-family:Segoe UI,Arial,sans-serif;background:#f4f7fb;padding:20px;'>"
+
+                                + "<div style='max-width:650px;margin:auto;background:#ffffff;border-radius:12px;"
+                                + "overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.1);'>"
+
+                                /* HEADER */
+                                + "<div style='background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);"
+                                + "color:white;padding:20px;text-align:center;'>"
+                                + "<h2 style='margin:0;'>Conference Invitation</h2>"
+                                + "<p style='margin:5px 0 0;'>CRDMS Portal</p>"
+                                + "</div>"
+
+                                /* POSTER IMAGE */
+                                + "<div style='text-align:center;background:#eef3f8;padding:15px;'>"
+                                + "<img src='cid:posterImage' style='max-width:100%;border-radius:10px;'/>"
+                                + "</div>"
+
+                                /* BODY */
+                                + "<div style='padding:25px;'>"
+
+                                + "<h3 style='color:#2c5364;margin-bottom:10px;'>"
+                                + conf.getConferenceTopic()
+                                + "</h3>"
+
+                                + "<p style='color:#555;'>You are invited to participate in the following conference.</p>"
+
+                                /* DETAILS BOX */
+                                + "<div style='background:#f8f9fa;padding:15px;border-radius:10px;margin:15px 0;'>"
+                                + "<p><b>Date:</b> " + conf.getDate() + "</p>"
+                                + "<p><b>Time:</b> " + conf.getTime() + "</p>"
+                                + "</div>"
+
+                                /* LOGIN BOX */
+                                + "<div style='background:#eef3f8;padding:15px;border-radius:10px;margin:15px 0;'>"
+                                + "<h4 style='margin-top:0;color:#203a43;'>Your Login Credentials</h4>"
+                                + "<p><b>Email:</b> " + email + "</p>"
+                                + "<p><b>Password:</b> " + password + "</p>"
+                                + "</div>"
+
+                                /* BUTTONS */
+                                + "<div style='text-align:center;margin-top:20px;'>"
+
+                                + "<a href='https://conference-app-yzho.onrender.com/delegateLogin' "
+                                + "style='display:inline-block;background:#2c5364;color:white;padding:12px 20px;"
+                                + "text-decoration:none;border-radius:25px;margin-right:10px;'>"
+                                + "Login Now</a>"
+
+                                + "</div>"
+
+                                /* FOOTER */
+                                + "<div style='background:#0f2027;color:white;text-align:center;padding:15px;'>"
+                                + "<p style='margin:0;'>© 2026 CRDMS Conference System</p>"
+                                + "<small>Automated Email - Do Not Reply</small>"
+                                + "</div>"
+
+                                + "</div>"
+                                + "</div>";
+
+                emailService.sendHtmlMail(email, subject, body, conf);
+            } catch (Exception e) {
+
+                System.out.println(" Failed for: " + email);
+                e.printStackTrace();
+
+                isEmailSent = false; //  mark failure
             }
-
-
-            String body =
-                    "<div style='font-family:Segoe UI,Arial,sans-serif;background:#f4f7fb;padding:20px;'>"
-
-                            + "<div style='max-width:650px;margin:auto;background:#ffffff;border-radius:12px;"
-                            + "overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.1);'>"
-
-                            /* HEADER */
-                            + "<div style='background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);"
-                            + "color:white;padding:20px;text-align:center;'>"
-                            + "<h2 style='margin:0;'>Conference Invitation</h2>"
-                            + "<p style='margin:5px 0 0;'>CRDMS Portal</p>"
-                            + "</div>"
-
-                            /* POSTER IMAGE */
-                            + "<div style='text-align:center;background:#eef3f8;padding:15px;'>"
-                            + "<img src='cid:posterImage' style='max-width:100%;border-radius:10px;'/>"
-                            + "</div>"
-
-                            /* BODY */
-                            + "<div style='padding:25px;'>"
-
-                            + "<h3 style='color:#2c5364;margin-bottom:10px;'>"
-                            + conf.getConferenceTopic()
-                            + "</h3>"
-
-                            + "<p style='color:#555;'>You are invited to participate in the following conference.</p>"
-
-                            /* DETAILS BOX */
-                            + "<div style='background:#f8f9fa;padding:15px;border-radius:10px;margin:15px 0;'>"
-                            + "<p><b>Date:</b> " + conf.getDate() + "</p>"
-                            + "<p><b>Time:</b> " + conf.getTime() + "</p>"
-                            + "</div>"
-
-                            /* LOGIN BOX */
-                            + "<div style='background:#eef3f8;padding:15px;border-radius:10px;margin:15px 0;'>"
-                            + "<h4 style='margin-top:0;color:#203a43;'>Your Login Credentials</h4>"
-                            + "<p><b>Email:</b> " + email + "</p>"
-                            + "<p><b>Password:</b> " + password + "</p>"
-                            + "</div>"
-
-                            /* BUTTONS */
-                            + "<div style='text-align:center;margin-top:20px;'>"
-
-                            + "<a href='https://conference-app-yzho.onrender.com/delegateLogin' "
-                            + "style='display:inline-block;background:#2c5364;color:white;padding:12px 20px;"
-                            + "text-decoration:none;border-radius:25px;margin-right:10px;'>"
-                            + "Login Now</a>"
-
-                            + "</div>"
-
-                            /* FOOTER */
-                            + "<div style='background:#0f2027;color:white;text-align:center;padding:15px;'>"
-                            + "<p style='margin:0;'>© 2026 CRDMS Conference System</p>"
-                            + "<small>Automated Email - Do Not Reply</small>"
-                            + "</div>"
-
-                            + "</div>"
-                            + "</div>";
-
-            emailService.sendHtmlMail(email, subject, body,conf);
         }
 
-        conf.setEmailSent(true);
+        conf.setEmailSent(isEmailSent);
         conferenceDAO.update(conf);
 
-        return true;
+        return isEmailSent;
     }
 
 
