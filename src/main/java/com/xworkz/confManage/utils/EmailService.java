@@ -59,7 +59,8 @@ public class EmailService {
             emailSender.send(message);
 
         } catch (Exception e) {
-            throw new RuntimeException("Mail send failed", e);
+            System.out.println("Mail failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

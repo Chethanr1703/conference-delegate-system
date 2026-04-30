@@ -93,11 +93,15 @@ public class ConferenceController {
         if (session == null || session.getAttribute("admin") == null) {
             return "redirect:/adminLogin";
         }
+        boolean sent = false;
+        try {
 
-        boolean sent = conferenceService.sendToTPO(id);
+            sent = conferenceService.sendToTPO(id);
+        } catch (Exception e) {
+            System.out.println("Email failed but continuing...");
+        }
 
-        model.addAttribute("msg", sent ? "Mail Sent to TPO" : "Failed");
-
+        model.addAttribute("msg", sent ? "Mail Sent" : "Mail Failed");
         return "redirect:/admin/dashboard";
     }
 
