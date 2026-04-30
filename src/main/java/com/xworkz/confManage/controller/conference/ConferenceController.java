@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -88,7 +89,7 @@ public class ConferenceController {
 
 
     @PostMapping("/admin/sendToDelegates")
-    public String sendToDelegates(@RequestParam int id, Model model,HttpSession  session) {
+    public String sendToDelegates(@RequestParam int id, Model model, RedirectAttributes redirectAttributes, HttpSession  session) {
 
         if (session == null || session.getAttribute("admin") == null) {
             return "redirect:/adminLogin";
@@ -101,8 +102,13 @@ public class ConferenceController {
             System.out.println("Email failed but continuing...");
         }
 
-        model.addAttribute("msg", sent ? "Mail Sent" : "Mail Failed");
-        return "redirect:/admin/dashboard";
+        if (sent) {
+            redirectAttributes.addFlashAttribute("successMsg", "Mail Sent Successfully ");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMsg", "Mail Failed ");
+        }
+
+        return "redirect:/admin/dashboard?filter=sent";
     }
 
 
