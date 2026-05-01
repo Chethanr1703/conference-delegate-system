@@ -64,7 +64,8 @@ public class EmailService {
                 System.out.println("Poster is NULL");
             }
 
-            SendGrid sg = new SendGrid("0c549bb1-780e-499b-a46c-a4a2d12917de");
+            String apiKey = System.getenv("SENDGRID_API_KEY");
+            SendGrid sg = new SendGrid(apiKey);
 
             Request request = new Request();
             request.setMethod(Method.POST);

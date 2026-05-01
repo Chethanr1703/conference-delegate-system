@@ -806,6 +806,19 @@ footer {
                 <span class="sh-badge sh-success"><i class="fas fa-check-circle"></i> Ready to Send</span>
             </div>
 
+            <c:if test="${not empty successMsg}">
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert" data-aos="fade-up">
+                    <i class="fas fa-check-circle me-2"></i>${successMsg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
+            <c:if test="${not empty errorMsg}">
+                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" data-aos="fade-up">
+                    <i class="fas fa-exclamation-circle me-2"></i>${errorMsg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </c:if>
+
             <div class="row g-4">
                 <c:forEach var="conf" items="${conferenceList}">
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
