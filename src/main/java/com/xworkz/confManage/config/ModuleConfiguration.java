@@ -32,20 +32,56 @@ public class ModuleConfiguration {
     }
     @Bean
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://roundhouse.proxy.rlwy.net:11470/railway?useSSL=false&allowPublicKeyRetrieval=true");
-        dataSource.setUsername("root");
-        dataSource.setPassword("rzpqDCOoJxtYGSWAbywuwKrPDtmWxwlv");
+
+        DriverManagerDataSource dataSource =
+                new DriverManagerDataSource();
+
+        dataSource.setDriverClassName(
+                "com.mysql.cj.jdbc.Driver"
+        );
+
+        dataSource.setUrl(
+                "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12827127" +
+                        "?useSSL=false" +
+                        "&allowPublicKeyRetrieval=true" +
+                        "&serverTimezone=UTC" +
+                        "&autoReconnect=true" +
+                        "&connectTimeout=60000" +
+                        "&socketTimeout=60000"
+        );
+
+        dataSource.setUrl(System.getenv("DB_URL"));
+        dataSource.setUsername(System.getenv("DB_USERNAME"));
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
+
         return dataSource;
     }
     // thoery  -
     public Properties getJpaProperty() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        return properties;
 
+        Properties properties = new Properties();
+
+        properties.setProperty(
+                "hibernate.dialect",
+                "org.hibernate.dialect.MySQL8Dialect"
+        );
+
+        properties.setProperty(
+                "hibernate.hbm2ddl.auto",
+                "update"
+        );
+
+        properties.setProperty(
+                "hibernate.show_sql",
+                "true"
+        );
+
+        properties.setProperty(
+                "hibernate.format_sql",
+                "true"
+        );
+
+        return properties;
     }
 
     @Bean
