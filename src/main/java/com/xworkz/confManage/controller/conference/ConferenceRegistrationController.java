@@ -78,6 +78,21 @@ public class ConferenceRegistrationController {
 //            mv.setViewName("index");
 //            return mv;
         }
+        if (!poster.isEmpty()) {
+
+            long maxSize = 2 * 1024 * 1024; // 2 MB
+
+            if (poster.getSize() > maxSize) {
+
+                mv.addObject(
+                        "errorMsg",
+                        "Poster size must be less than 2 MB"
+                );
+
+                mv.setViewName("RegisterConference");
+                return mv;
+            }
+        }
 
         boolean isSaved = conferenceService.saveConference(
                 conferenceDTO, poster, delegateFile);

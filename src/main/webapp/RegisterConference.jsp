@@ -267,6 +267,22 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
 <script>
     AOS.init({duration:800});
+    document.getElementById("poster").addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (file) {
+
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (file.size > maxSize) {
+
+            alert("Poster size must be less than 2 MB");
+
+            this.value = "";
+        }
+    }
+});
 </script>
 
 </body>
