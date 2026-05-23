@@ -41,13 +41,7 @@ public class ModuleConfiguration {
         );
 
         dataSource.setUrl(
-                "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12827127" +
-                        "?useSSL=false" +
-                        "&allowPublicKeyRetrieval=true" +
-                        "&serverTimezone=UTC" +
-                        "&autoReconnect=true" +
-                        "&connectTimeout=60000" +
-                        "&socketTimeout=60000"
+                "jdbc:mysql://sql313.infinityfree.com:3306/if0_42003145_conference?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
         );
 
         dataSource.setUrl(System.getenv("DB_URL"));
