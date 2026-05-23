@@ -41,8 +41,7 @@ public class ModuleConfiguration {
         );
 
         dataSource.setUrl(
-                "jdbc:mysql://sql313.infinityfree.com:3306/if0_42003145_conference?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-        );
+                "jdbc:mysql://mysql.railway.internal:3306/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" );
 
         dataSource.setUrl(System.getenv("DB_URL"));
         dataSource.setUsername(System.getenv("DB_USERNAME"));
